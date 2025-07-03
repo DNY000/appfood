@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodapp/ultils/const/color_extension.dart';
-import 'package:foodapp/common_widget/line_textfield.dart';
-import 'package:foodapp/common_widget/round_button.dart';
+
 import 'package:foodapp/view/authentication/viewmodel/login_viewmodel.dart';
 import 'package:provider/provider.dart';
 
@@ -82,78 +81,62 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                     ),
                   ),
                   SizedBox(height: media.width * 0.1),
-
-                  // Email Field
-                  LineTextField(
-                    controller: _emailController,
-                    hitText: "Email",
-                    keyboardType: TextInputType.emailAddress,
-                    validator: viewModel.validateEmail,
-                  ),
-
-                  // Error message
-                  // if (viewModel.error.isNotEmpty)
-                  //   Padding(
-                  //     padding: const EdgeInsets.only(top: 16.0),
-                  //     child: Container(
-                  //       padding: const EdgeInsets.all(12),
-                  //       decoration: BoxDecoration(
-                  //         color: Colors.red.withOpacity(0.1),
-                  //         borderRadius: BorderRadius.circular(8),
-                  //       ),
-                  //       child: Row(
-                  //         children: [
-                  //           const Icon(
-                  //             Icons.error_outline,
-                  //             color: Colors.red,
-                  //             size: 20,
-                  //           ),
-                  //           const SizedBox(width: 8),
-                  //           Expanded(
-                  //             child: Text(
-                  //               viewModel.error,
-                  //               style: const TextStyle(
-                  //                 color: Colors.red,
-                  //                 fontSize: 14,
-                  //               ),
-                  //             ),
-                  //           ),
-                  //         ],
-                  //       ),
-                  //     ),
-                  //   ),
-
-                  // // Success message
-                  // if (viewModel.isSuccess)
-                  //   Padding(
-                  //     padding: const EdgeInsets.only(top: 16.0),
-                  //     child: Container(
-                  //       padding: const EdgeInsets.all(12),
-                  //       decoration: BoxDecoration(
-                  //         color: Colors.green.withOpacity(0.1),
-                  //         borderRadius: BorderRadius.circular(8),
-                  //       ),
-                  //       child: Row(
-                  //         children: [
-                  //           const Icon(
-                  //             Icons.check_circle_outline,
-                  //             color: Colors.green,
-                  //             size: 20,
-                  //           ),
-                  //           const SizedBox(width: 8),
-                  //           const Expanded(
-                  //             child: Text(
-                  //               "Email khôi phục mật khẩu đã được gửi. Vui lòng kiểm tra hòm thư của bạn.",
-                  //               style: TextStyle(
-                  //                 color: Colors.green,
-                  //                 fontSize: 14,
-                  //               ),
-                  //             ),
-                  //           ),
-                  //         ],
-                  //       ),
-                  //     ),
-                  //   ),
+                 TextFormField(
+                          controller: viewModel.txtEmail,
+                          onChanged: (_) => viewModel.clearError(),
+                          keyboardType: TextInputType.emailAddress,
+                          validator: viewModel.validateEmail,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black87,
+                          ),
+                          decoration: InputDecoration(
+                            filled: true, // Add fill
+                            fillColor:
+                                Colors.grey.shade200, // Light grey background
+                            hintText: "duy000.vn@gmail.com", // Example hint
+                            hintStyle: TextStyle(
+                              color: Colors.grey.shade600, // Darker grey hint
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  8), // Slightly rounded corners
+                              borderSide: BorderSide.none, // No visible border
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide.none,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: const BorderSide(
+                                  color: Colors.transparent,
+                                  width: 1), // Orange border when focused
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide:
+                                  const BorderSide(color: Colors.red, width: 1),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide:
+                                  const BorderSide(color: Colors.red, width: 1),
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 14), // Adjusted padding
+                            // suffixIcon: Icon(
+                            //   Icons.email_outlined,
+                            //   color: TColor.gray,
+                            //   size: 18,
+                            // ), // Removed email icon
+                          ),
+                        ),
+                 
 
                   SizedBox(height: media.width * 0.1),
 

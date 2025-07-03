@@ -1,9 +1,6 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 
-// ignore: must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:foodapp/ultils/const/color_extension.dart';
 import 'package:foodapp/view/authentication/viewmodel/login_viewmodel.dart';
 import 'package:foodapp/view/main_tab/main_tab_view.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +19,6 @@ class OtherLogin extends StatefulWidget {
 
 class _OtherLoginState extends State<OtherLogin> {
   bool _isLoadingGoogle = false;
-  bool _isLoadingFacebook = false;
 
   @override
   Widget build(BuildContext context) {

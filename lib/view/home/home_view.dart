@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:foodapp/common_widget/appbar/t_appbar.dart';
+import 'package:foodapp/common_widget/show_loading.dart';
 import 'package:foodapp/core/location_service.dart';
 import 'package:foodapp/core/services/notifications_service.dart';
+import 'package:foodapp/main.dart';
 import 'package:foodapp/ultils/const/color_extension.dart';
 import 'package:foodapp/view/home/widgets/list_banner.dart';
 import 'package:foodapp/view/home/widgets/list_best_seller_food.dart';
@@ -53,18 +55,13 @@ class _HomeViewContentState extends State<_HomeViewContent>
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       try {
-        // Load user data first
         await context.read<UserViewModel>().loadCurrentUser();
-
-        // After user data is loaded, get userId and load notifications
         final userId = context.read<UserViewModel>().currentUser?.id;
         if (userId != null && userId.isNotEmpty) {
           await context
               .read<NotificationViewModel>()
               .getUnreadNotificationsCount(userId);
         }
-
-        // Load other data
         await Future.wait([
           context.read<FoodViewModel>().loadFoods(),
           context.read<CategoryViewModel>().loadCategories(),
@@ -97,7 +94,6 @@ class _HomeViewContentState extends State<_HomeViewContent>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      // Khi app quay lại từ background hoặc từ cài đặt, kiểm tra lại vị trí
       _loadCurrentAddress();
     }
   }
@@ -191,7 +187,6 @@ class _HomeViewContentState extends State<_HomeViewContent>
                                     ),
                                   ),
                                   onPressed: () async {
-                                    // Refresh notification count before navigating
                                     final userId = context
                                         .read<UserViewModel>()
                                         .currentUser
@@ -206,10 +201,22 @@ class _HomeViewContentState extends State<_HomeViewContent>
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) =>
-                                              const NotificationsView(),
-                                        ),
-                                      );
+                                            builder: (context) =>
+                                                const NotificationsView()),
+                                      ).then((_) async {
+                                        final userId = context
+                                            .read<UserViewModel>()
+                                            .currentUser
+                                            ?.id;
+                                        if (userId != null &&
+                                            userId.isNotEmpty &&
+                                            context.mounted) {
+                                          await context
+                                              .read<NotificationViewModel>()
+                                              .getUnreadNotificationsCount(
+                                                  userId);
+                                        }
+                                      });
                                     }
                                   },
                                 ));
@@ -280,14 +287,39 @@ class _HomeViewContentState extends State<_HomeViewContent>
               pinned: true,
               delegate: _SliverTabBarDelegate(
                 TabBar(
+                  labelPadding: EdgeInsets.only(top: 4),
                   controller: _tabController,
                   indicatorColor: Colors.orange,
                   labelColor: Colors.orange,
                   unselectedLabelColor: TColor.gray,
                   tabs: const [
-                    Tab(icon: Icon(Icons.location_on), text: "Gần tôi"),
-                    Tab(icon: Icon(Icons.trending_up), text: "Bán chạy"),
-                    Tab(icon: Icon(Icons.star), text: "Đánh giá"),
+                    Tab(
+                      child: Column(
+                        children: [
+                          Icon(Icons.location_on, size: 18),
+                          SizedBox(width: 4),
+                          Text("Gần tôi", style: TextStyle(fontSize: 14)),
+                        ],
+                      ),
+                    ),
+                    Tab(
+                      child: Column(
+                        children: [
+                          Icon(Icons.trending_up, size: 18),
+                          SizedBox(width: 4),
+                          Text("Bán chạy", style: TextStyle(fontSize: 13)),
+                        ],
+                      ),
+                    ),
+                    Tab(
+                      child: Column(
+                        children: [
+                          Icon(Icons.star, size: 18),
+                          SizedBox(width: 4),
+                          Text("Đánh giá", style: TextStyle(fontSize: 13)),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),

@@ -248,7 +248,7 @@ class _RestaurantDetailViewState extends State<RestaurantDetailView> {
                                 ignoreGestures: true,
                                 itemBuilder: (context, _) => Icon(
                                   Icons.star,
-                                  color: TColor.color3,
+                                  color: TColor.orange3,
                                 ),
                                 onRatingUpdate: (rating) {},
                               ),
@@ -284,7 +284,7 @@ class _RestaurantDetailViewState extends State<RestaurantDetailView> {
                                 children: [
                                   Icon(
                                     Icons.location_on,
-                                    color: TColor.gray,
+                                    color: TColor.orange3,
                                   ),
                                   const SizedBox(width: 8),
                                   Text(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foodapp/common_widget/card/t_card.dart';
+import 'package:foodapp/common_widget/card/t_card_food.dart';
 import 'package:foodapp/view/restaurant/restaurant_detail_view.dart';
 import 'package:foodapp/view/restaurant/widgets/food_image_widget.dart';
 import 'package:foodapp/viewmodels/food_viewmodel.dart';
@@ -43,8 +43,7 @@ class _RestaurantTabViewState extends State<RestaurantTabView>
 
   Future<void> _initializeLocation() async {
     await _getCurrentLocation();
-    // Set up periodic location updates
-    Timer.periodic(const Duration(minutes: 5), (timer) {
+    Timer.periodic(const Duration(minutes: 3), (timer) {
       if (!mounted) {
         timer.cancel();
         return;
@@ -68,7 +67,6 @@ class _RestaurantTabViewState extends State<RestaurantTabView>
           _isLoadingLocation = false;
         });
 
-        // Fetch restaurants with location
         await context.read<RestaurantViewModel>().fetchNearbyRestaurants(
               radiusInKm: 20,
               limit: 10,
@@ -105,7 +103,6 @@ class _RestaurantTabViewState extends State<RestaurantTabView>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      // Khi app quay lại từ background hoặc từ cài đặt, kiểm tra lại vị trí
       _getCurrentLocation();
     }
   }
@@ -264,7 +261,7 @@ class _RestaurantTabViewState extends State<RestaurantTabView>
         }
 
         return ListView.builder(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           itemCount: viewModel.nearbyRestaurants.length,
           itemBuilder: (context, index) {
             final restaurant = viewModel.nearbyRestaurants[index];
@@ -277,9 +274,9 @@ class _RestaurantTabViewState extends State<RestaurantTabView>
               child: Card(
                 color: Colors.white,
                 elevation: 0.8,
-                margin: const EdgeInsets.only(bottom: 4),
+                margin: const EdgeInsets.only(bottom: 12),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(8),
                 ),
                 child: InkWell(
                   onTap: () {
@@ -291,9 +288,9 @@ class _RestaurantTabViewState extends State<RestaurantTabView>
                       ),
                     );
                   },
-                  borderRadius: BorderRadius.circular(12),
+                 // borderRadius: BorderRadius.circular(12),
                   child: Padding(
-                    padding: const EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(8),
                     child: Row(
                       children: [
                         // Restaurant Image
@@ -317,7 +314,7 @@ class _RestaurantTabViewState extends State<RestaurantTabView>
                               Text(
                                 restaurant.name,
                                 style: const TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.bold,
                                 ),
                                 maxLines: 1,
@@ -556,16 +553,16 @@ class _RestaurantTabViewState extends State<RestaurantTabView>
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const Icon(
+         Icon(
           Icons.location_on,
           size: 16,
-          color: Colors.orange,
+          color: TColor.orange3,
         ),
         const SizedBox(width: 4),
         Text(
           distance,
-          style: const TextStyle(
-            color: Colors.orange,
+          style:  TextStyle(
+            color:  TColor.orange3,
             fontWeight: FontWeight.w500,
           ),
         ),

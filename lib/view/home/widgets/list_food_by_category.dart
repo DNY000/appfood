@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:foodapp/common_widget/card/t_card.dart';
+import 'package:foodapp/common_widget/appbar/t_appbar.dart';
+import 'package:foodapp/common_widget/card/t_card_food.dart';
 import 'package:foodapp/viewmodels/category_viewmodel.dart';
 import 'package:foodapp/viewmodels/food_viewmodel.dart';
 import 'package:foodapp/ultils/const/color_extension.dart';
@@ -112,14 +113,13 @@ class _ListFoodByCategoryState extends State<ListFoodByCategory>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
+      appBar: TAppBar(
         title: const Text(
           'Danh sách món ăn ',
           style: TextStyle(color: Colors.black),
         ),
-        backgroundColor: Colors.white,
-        elevation: 0.5,
-        iconTheme: const IconThemeData(color: Colors.black),
+        showBackArrow: true,
+       
       ),
       body: Column(
         children: [
@@ -141,15 +141,19 @@ class _ListFoodByCategoryState extends State<ListFoodByCategory>
               }
 
               return TabBar(
+                padding: const EdgeInsets.only(left: 12),
                 controller: _tabController,
                 isScrollable: true,
+                tabAlignment: TabAlignment.start,
                 labelColor: TColor.orange5,
                 unselectedLabelColor: TColor.gray,
                 indicatorColor: TColor.orange5,
+                indicatorSize: TabBarIndicatorSize.tab, 
+                labelStyle: TextStyle(fontSize: 14),
                 tabs: [
                   const Tab(text: 'Tất cả'),
                   ...categoryViewModel.categories
-                      .map((category) => Tab(text: category.name))
+                      .map((category) => Tab(text: category.name, ))
                       .toList(),
                 ],
                 onTap: _onTabSelected,
@@ -214,7 +218,7 @@ class _ListFoodByCategoryState extends State<ListFoodByCategory>
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.no_meals, size: 64, color: TColor.gray),
+                        Image.asset('assets/images/food/default.png', fit: BoxFit.cover,),
                         const SizedBox(height: 16),
                         Text(
                           'Không có món ăn nào trong danh mục này',

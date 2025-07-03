@@ -405,8 +405,8 @@ class _MyProfileViewState extends State<MyProfileView> {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context).pop();
                         _performLogout(context);
+                        setState(() {});
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: TColor.orange3,

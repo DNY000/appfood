@@ -30,12 +30,12 @@ class RestaurantGridItem extends StatelessWidget {
                 height: 100,
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(15),
+                    top: Radius.circular(8),
                   ),
                 ),
                 child: ClipRRect(
                   borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(15),
+                    top: Radius.circular(8),
                   ),
                   child: FoodImageWidget(
                     imageSource: restaurant.mainImage,
@@ -55,15 +55,15 @@ class RestaurantGridItem extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                     Row(
                       children: [
                         Icon(
                           Icons.star,
-                          color: TColor.color3,
+                          color: TColor.orange3,
                           size: 18,
                         ),
                         const SizedBox(width: 4),
@@ -90,7 +90,7 @@ class RestaurantGridItem extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               decoration: BoxDecoration(
-                color: TColor.color3,
+                color: TColor.orange3,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: const Text(

@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:foodapp/view/restaurant/widgets/food_image_widget.dart';
-import 'package:go_router/go_router.dart';
+import 'package:foodapp/common_widget/show_loading.dart';
 import 'package:provider/provider.dart';
 import 'package:foodapp/viewmodels/banner_viewmodel.dart';
 
@@ -13,14 +12,20 @@ class ListBanner extends StatelessWidget {
     final sizeContainer = MediaQuery.of(context).size.width * 0.5;
     final bannerVM = Provider.of<BannerViewmodel>(context);
 
-    // Gọi lấy banner nếu chưa có dữ liệu
     if (bannerVM.listBanner.isEmpty && !bannerVM.isLoading) {
-      Future.microtask(() => bannerVM.getListBanner());
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        LoadingUtil.show();
+        try {
+          await bannerVM.getListBanner();
+        } finally {
+          LoadingUtil.hide();
+        }
+      });
     }
 
-    if (bannerVM.isLoading) {
-      return const Center(child: CircularProgressIndicator());
-    }
+    // if (bannerVM.isLoading) {
+    //   return const SizedBox();
+    // }
 
     if (bannerVM.listBanner.isEmpty) {
       return const Center(child: Text('Không có banner nào'));
@@ -32,11 +37,11 @@ class ListBanner extends StatelessWidget {
         itemCount: bannerVM.listBanner.length,
         itemBuilder: (context, index, realIndex) {
           final banner = bannerVM.listBanner[index];
-          // Kiểm tra là asset hay network
           final isAsset = banner.image.startsWith('assets/');
+
           return GestureDetector(
-            onTap: () {},
-            //=> context.go(banner.link),
+            onTap: () {
+            },
             child: Container(
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
@@ -52,10 +57,7 @@ class ListBanner extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
                   gradient: const LinearGradient(
-                    colors: [
-                      Colors.transparent,
-                      Colors.black,
-                    ],
+                    colors: [Colors.transparent, Colors.black],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
@@ -97,10 +99,10 @@ class ListBanner extends StatelessWidget {
           autoPlayAnimationDuration: const Duration(milliseconds: 800),
           autoPlayCurve: Curves.fastOutSlowIn,
           enlargeCenterPage: false,
-          enlargeFactor: 0.0,
           scrollDirection: Axis.horizontal,
         ),
       ),
     );
   }
 }
+

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodapp/common_widget/appbar/t_appbar.dart';
 import 'package:provider/provider.dart';
 import 'package:foodapp/viewmodels/user_viewmodel.dart';
 import 'package:foodapp/ultils/const/color_extension.dart';
@@ -18,16 +19,12 @@ class _MyAddressViewState extends State<MyAddressView> {
     final currentUser = userViewModel.currentUser;
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: TAppBar(
         title: const Text('Địa chỉ của tôi'),
-        backgroundColor: Colors.white,
-        elevation: 0.5,
-        iconTheme: const IconThemeData(color: Colors.black),
-        titleTextStyle: const TextStyle(
-            color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+        showBackArrow: true,
       ),
       backgroundColor: Colors.white,
-      body: currentUser == null || currentUser.addresses.isEmpty
+      body: currentUser == null || currentUser.addresses.isEmpty ||(currentUser.defaultAddress?.street ?? '').isEmpty
           ? Center(
               child: Text(
                 'Bạn chưa có địa chỉ nào. Hãy thêm địa chỉ mới!',

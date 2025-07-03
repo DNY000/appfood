@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:foodapp/common_widget/appbar/t_appbar.dart';
+import 'package:foodapp/ultils/validators.dart';
 import '../../ultils/const/color_extension.dart';
 import '../../view/authentication/repository/authentication_repository.dart';
 import '../../ultils/exception/firebase_auth_exception.dart';
@@ -77,10 +79,11 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Đổi mật khẩu'),
-        backgroundColor: Colors.white,
+      appBar: TAppBar(
+          title: const Text('Đổi mật khẩu'),
+          showBackArrow: true,
       ),
+     
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Form(
@@ -193,6 +196,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                     return 'Vui lòng nhập mật khẩu mới';
                   }
                   if (value.length < 6) return 'Mật khẩu phải từ 6 ký tự';
+                  Validators.validatePassword(value) ;
                   return null;
                 },
               ),

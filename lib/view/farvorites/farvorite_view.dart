@@ -75,7 +75,7 @@ class _FarvoriteViewState extends State<FarvoriteView> {
                       padding: const EdgeInsets.only(bottom: 12),
                       child: FoodListItem(
                         food: food,
-                        showButtonAddToCart: true,
+                        showButtonAddToCart: false,
                       ),
                     );
                   },

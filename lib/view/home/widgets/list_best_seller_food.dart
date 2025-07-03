@@ -29,7 +29,7 @@ class ListFoodYouMaybeLike extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         SizedBox(
-          height: 164,
+          height:145,
           child: Consumer<FoodViewModel>(
             builder: (context, viewModel, child) {
               if (viewModel.isLoading && viewModel.foods.isEmpty) {

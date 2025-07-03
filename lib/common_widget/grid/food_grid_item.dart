@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodapp/common_widget/add_cart_button.dart';
+import 'package:foodapp/common_widget/food_order_controller.dart';
 import 'package:foodapp/view/restaurant/single_food_detail.dart';
 import 'package:foodapp/view/restaurant/widgets/food_image_widget.dart';
 import '../../data/models/food_model.dart';
@@ -18,10 +19,11 @@ class FoodGridItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 120,
+
       margin: const EdgeInsets.symmetric(horizontal: 2),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Stack(
         children: [
@@ -32,7 +34,7 @@ class FoodGridItem extends StatelessWidget {
               ClipRRect(
                 borderRadius: const BorderRadius.vertical(
                   top: Radius.circular(8),
-                  bottom: Radius.circular(0),
+                  bottom: Radius.circular(4),
                 ),
                 clipBehavior: Clip.antiAlias,
                 child: FoodImageWidget(
@@ -43,15 +45,15 @@ class FoodGridItem extends StatelessWidget {
               ),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
+                    const EdgeInsets.only(left: 8.0, right: 8, top: 8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       food.name,
                       style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -60,31 +62,32 @@ class FoodGridItem extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          children: [
+                        Row(children: [
+                          const SizedBox(width: 4),
+                          Text(
+                            '${TFormatter.formatCurrency(food.price)}đ',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: (food.discountPrice ?? 0) > 0
+                                  ? Colors.grey
+                                  : Colors.orange,
+                              decoration: (food.discountPrice ?? 0) > 0
+                                  ? TextDecoration.lineThrough
+                                  : TextDecoration.none,
+                            ),
+                          ),
+                          if ((food.discountPrice ?? 0) > 0) ...[
+                            const SizedBox(width: 4,),
                             Text(
-                              TFormatter.formatCurrency(food.price) + 'đ',
+                              '${TFormatter.formatCurrency(food.discountPrice ?? 0)}đ',
                               style: const TextStyle(
-                                fontSize: 14,
+                                fontSize: 12,
                                 color: Colors.orange,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
-                            if ((food.discountPrice ?? 0) > 0) ...[
-                              const SizedBox(width: 4),
-                              Text(
-                                TFormatter.formatCurrency(
-                                        food.discountPrice ?? 0) +
-                                    'đ',
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.grey,
-                                  decoration: TextDecoration.lineThrough,
-                                ),
-                              ),
-                            ],
                           ],
-                        ),
+                        ]),
                         if (showButtonAddToCart)
                           AddCartButton(
                             onPressed: () {},

@@ -792,7 +792,6 @@ class _ShimmerMainTabViewContentState extends State<ShimmerMainTabViewContent>
     with TickerProviderStateMixin {
   late TabController
       _internalTabController; // Sử dụng tab controller nội bộ cho shimmer
-  bool _isLoading = true;
 
   @override
   void initState() {
@@ -816,7 +815,7 @@ class _ShimmerMainTabViewContentState extends State<ShimmerMainTabViewContent>
     Future.delayed(widget.loadingDuration, () {
       if (mounted) {
         setState(() {
-          _isLoading = false;
+        //  _isLoading = false;
         });
 
         if (widget.onLoadingChanged != null) {

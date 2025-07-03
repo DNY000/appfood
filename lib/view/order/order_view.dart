@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:foodapp/common_widget/card/t_card.dart';
+import 'package:foodapp/common_widget/card/t_card_food.dart';
 import 'package:foodapp/data/models/order_model.dart';
 import 'package:foodapp/ultils/const/enum.dart';
+import 'package:foodapp/ultils/extension.dart';
+import 'package:foodapp/ultils/fomatter/formatters.dart';
 import 'package:foodapp/view/order/order_screen.dart';
 import 'package:foodapp/view/restaurant/widgets/food_image_widget.dart';
 import 'package:foodapp/viewmodels/user_viewmodel.dart';
@@ -94,7 +96,6 @@ class _OrderViewState extends State<OrderView>
           tabs: const [
             Tab(text: "Đang đến"),
             Tab(text: "Lịch sử"),
-            // Tab(text: "Đánh giá"),
             Tab(text: "Đơn nháp"),
           ],
         ),
@@ -241,21 +242,23 @@ class _OrderViewState extends State<OrderView>
         color: Colors.white,
         elevation: 1,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    restaurantName,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.normal,
-                      fontSize: 16,
+                  Flexible(
+                    child: Text(
+                      restaurantName,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 16,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                     ),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
                   ),
                   _buildStatusChip(order.status),
                 ],
@@ -268,8 +271,9 @@ class _OrderViewState extends State<OrderView>
                       flex: 2,
                       child: order.items.isNotEmpty
                           ? ClipRRect(
+                            clipBehavior:Clip.antiAlias ,
                               borderRadius:
-                                  const BorderRadius.all(Radius.circular(4)),
+                                  const BorderRadius.all(Radius.circular(6)),
                               child: FoodImageWidget(
                                 imageSource: order.items.first.image,
                                 fit: BoxFit.cover,
@@ -279,7 +283,9 @@ class _OrderViewState extends State<OrderView>
                               width: 60,
                               height: 60,
                               color: Colors.grey[300],
-                              child: const Icon(Icons.fastfood),
+                              decoration: BoxDecoration(
+                                image: DecorationImage(image: AssetImage('assets/images/food/default.png'))
+                              ),
                             )),
                   const SizedBox(width: 24),
                   Expanded(
@@ -290,38 +296,36 @@ class _OrderViewState extends State<OrderView>
                           Text(
                             "Món: $itemsDescription",
                             style: const TextStyle(fontSize: 14),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            "Tổng tiền: ${order.totalAmount.toStringAsFixed(0)}đ",
+                            "Tổng tiền: ${TFormatter.formatCurrency(order.totalAmount)}đ",
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
                               color: Colors.orange,
                             ),
+                             overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            "Ngày đặt: ${_formatDateTime(order.createdAt)}",
+                            "Ngày đặt: ${(order.createdAt).formatDMYHM()}",
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.grey[600],
                             ),
+                             overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
                           ),
+                          
                         ],
                       ))
                 ],
               ),
-              // const SizedBox(height: 12),
-              // if (order.status == OrderState.delivered ||
-              //     order.status.toString().toLowerCase() == "delivered")
-              //   TextButton(
-              //     onPressed: () {
-              //       // Xử lý đánh giá đơn hàng
-              //     },
-              //     child: const Text("Đánh giá đơn hàng",
-              //         style: TextStyle(color: Colors.black)),
-              //   ),
+           
             ],
           ),
         ),
@@ -329,12 +333,10 @@ class _OrderViewState extends State<OrderView>
     );
   }
 
-  // Hiển thị trạng thái đơn hàng
   Widget _buildStatusChip(dynamic status) {
     Color color;
     String label;
 
-    // Chuyển đổi status về string để xử lý đồng nhất
     String statusStr = status.toString().toLowerCase();
 
     if (statusStr.contains("pending") || statusStr == "pending") {
@@ -383,10 +385,8 @@ class _OrderViewState extends State<OrderView>
     );
   }
 
-  // Định dạng thời gian
-  String _formatDateTime(DateTime dateTime) {
-    return "${dateTime.day}/${dateTime.month}/${dateTime.year} ${dateTime.hour}:${dateTime.minute}";
-  }
+
+
 
   Widget _buildEmptyOrderView() {
     final orderViewModel = context.watch<OrderViewModel>();
@@ -435,11 +435,12 @@ class _OrderViewState extends State<OrderView>
                             0, (sum, item) => sum + item.price * item.quantity);
 
                         return Container(
+                          clipBehavior: Clip.antiAlias,
                           margin: const EdgeInsets.symmetric(
                               horizontal: 16, vertical: 8),
                           decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(8),
                             boxShadow: const [
                               BoxShadow(
                                 color: Colors.grey,
@@ -452,11 +453,10 @@ class _OrderViewState extends State<OrderView>
                           child: Stack(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.all(12),
+                                padding: const EdgeInsets.all(8),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    // Phần ảnh
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(8),
                                       child: Stack(
@@ -498,7 +498,6 @@ class _OrderViewState extends State<OrderView>
                                       ),
                                     ),
                                     const SizedBox(width: 12),
-                                    // Phần thông tin
                                     Expanded(
                                       child: Column(
                                         crossAxisAlignment:
@@ -549,22 +548,25 @@ class _OrderViewState extends State<OrderView>
                                           ),
                                         ),
                                         const SizedBox(height: 8),
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 8,
-                                            vertical: 4,
-                                          ),
-                                          decoration: BoxDecoration(
-                                            color: Colors.orange,
-                                            borderRadius:
-                                                BorderRadius.circular(4),
-                                          ),
-                                          child: const Text(
-                                            'Tiếp tục',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.bold,
+                                        GestureDetector(
+                                          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => OrderScreen(cartItems: items, restaurantId: restaurantId, totalAmount: totalAmount),)),
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 8,
+                                              vertical: 4,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: Colors.orange,
+                                              borderRadius:
+                                                  BorderRadius.circular(4),
+                                            ),
+                                            child: const Text(
+                                              'Tiếp tục',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -687,14 +689,12 @@ class _OrderViewState extends State<OrderView>
     return draftOrders;
   }
 
-  // Thêm hàm helper để xoá đơn nháp
   Future<void> removeDraftOrder(String restaurantId) async {
     final storage = TLocalStorage.instance();
     await storage.removeData('cart_backup_$restaurantId');
-    // Xoá id khỏi list
     final ids = await getDraftOrderIds();
     ids.remove(restaurantId);
     await storage.saveData('cart_backup_ids', ids);
-    setState(() {}); // Cập nhật lại UI
+    setState(() {}); 
   }
 }

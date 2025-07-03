@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:foodapp/common_widget/appbar/t_appbar.dart';
 import 'package:foodapp/data/models/order_model.dart';
 import 'package:foodapp/ultils/const/color_extension.dart';
 import 'package:foodapp/ultils/const/enum.dart';
+import 'package:foodapp/ultils/extension.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:foodapp/viewmodels/order_viewmodel.dart';
@@ -40,15 +42,15 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
         diff.inMinutes >= 30) {
       await context.read<OrderViewModel>().cancelOrder(order.id,
           'Đơn hàng tự động hủy do quá 30 phút không có shipper nhận');
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content: Text(
-                  'Đơn hàng đã tự động hủy do quá 30 phút không có shipper nhận.'),
-              backgroundColor: Colors.red),
-        );
-        setState(() {});
-      }
+      // if (mounted) {
+      //   ScaffoldMessenger.of(context).showSnackBar(
+      //     const SnackBar(
+      //         content: Text(
+      //             'Đơn hàng đã tự động hủy do quá 30 phút không có shipper nhận.'),
+      //         backgroundColor: Colors.red),
+      //   );
+      //   setState(() {});
+      // }
     }
   }
 
@@ -56,17 +58,12 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
+      appBar: TAppBar(
         title: const Text(
           'Chi tiết đơn hàng',
           style: TextStyle(color: Colors.black, fontSize: 24),
         ),
-        centerTitle: true,
-        elevation: 0.5,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.black, size: 20),
-          onPressed: () => Navigator.pop(context),
-        ),
+        showBackArrow: true,
       ),
       body: ListView(
         padding: const EdgeInsets.only(bottom: 20),
@@ -191,26 +188,35 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Icon(Icons.info_outline, color: statusColor),
-              const SizedBox(width: 8),
-              Text(
-                statusText,
-                style: TextStyle(
-                  color: statusColor,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+              Row(
+                children: [
+                  Icon(Icons.info_outline, color: TColor.orange3),
+                  const SizedBox(width: 8),
+                  Text(
+                    statusText,
+                    style: TextStyle(
+                      color: TColor.orange3,
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                ],
               ),
+              Row(
+                children: [
+                  Text(
+                    'Đơn hàng #${widget.order.id.substring(0, 8)}',
+                    style: const TextStyle(color: Colors.black54),
+                  ),
+                ],
+              )
             ],
           ),
           const SizedBox(height: 8),
           Text(
-            'Đơn hàng #${widget.order.id.substring(0, 8)}',
-            style: const TextStyle(color: Colors.black54),
-          ),
-          Text(
-            'Đặt lúc: ${DateFormat('HH:mm dd/MM/yyyy').format(widget.order.createdAt)}',
+            'Đặt lúc: ${(widget.order.createdAt).formatDMYHM()}',
             style: const TextStyle(color: Colors.black54),
           ),
         ],
@@ -224,26 +230,70 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
               Icon(Icons.location_on_outlined, color: Colors.black54),
               SizedBox(width: 8),
-              Text(
-                'Thông tin giao hàng',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
+              Text.rich(
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                TextSpan(children: [
+                  const TextSpan(
+                    text: "Thông tin giao hàng: ",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                  TextSpan(
+                    text: widget.order.address,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                ]),
               ),
             ],
           ),
-          const SizedBox(height: 12),
-          Text(
-            widget.order.address,
-            style: const TextStyle(fontSize: 15),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              Icon(Icons.people, color: Colors.black54),
+              SizedBox(width: 8),
+              Text(
+                'Tên khách hàng:',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Text(
+                widget.order.metadata?['fullName'] ?? "",
+                style: const TextStyle(fontSize: 15),
+              ),
+            ],
           ),
           const SizedBox(height: 8),
-          const Divider(),
+          Row(
+            children: [
+              Icon(Icons.phone, color: Colors.black54),
+              SizedBox(width: 8),
+              Text(
+                'Số điện thoại:',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Text(
+                widget.order.metadata?['phoneNumber'] ?? "",
+                style: const TextStyle(fontSize: 15),
+              ),
+            ],
+          ),
           const SizedBox(height: 8),
           Row(
             children: [
@@ -255,6 +305,10 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
               ),
             ],
           ),
+          const SizedBox(
+            height: 8,
+          ),
+          const Divider(),
         ],
       ),
     );
@@ -271,6 +325,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 const Icon(Icons.store, color: Colors.black54),
                 const SizedBox(width: 8),

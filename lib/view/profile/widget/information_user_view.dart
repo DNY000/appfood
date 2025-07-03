@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:foodapp/common_widget/appbar/t_appbar.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:foodapp/view/profile/widget/edit_user_view.dart';
@@ -32,8 +33,8 @@ class _InformationUserViewState extends State<InformationUserView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text(
+      appBar: TAppBar(
+      title: Text(
           'Thông tin tài khoản',
           style: TextStyle(
             color: TColor.text,
@@ -41,16 +42,7 @@ class _InformationUserViewState extends State<InformationUserView> {
             fontWeight: FontWeight.w700,
           ),
         ),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.white,
-        centerTitle: true,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(Icons.arrow_back),
-        ),
-        actions: [
+         action: [
           IconButton(
             icon: Icon(Icons.edit, color: TColor.orange3),
             onPressed: () async {
@@ -66,8 +58,10 @@ class _InformationUserViewState extends State<InformationUserView> {
             },
           ),
         ],
-        elevation: 0.5,
+        showBackArrow: true,
       ),
+      
+      
       body: Consumer<UserViewModel>(
         builder: (context, userVM, child) {
           if (userVM.isLoading) {

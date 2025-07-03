@@ -188,71 +188,68 @@ class _SingleFoodDetailState extends State<SingleFoodDetail> {
   }
 
   Widget _buildFoodInfo() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: Text(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
             widget.foodItem!.name,
             style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-          child: Text(
+          Text(
             widget.foodItem!.ingredients.toString(),
             style: const TextStyle(
               fontSize: 16,
               color: Colors.grey,
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Text(
-                    '${TFormatter.formatCurrency(widget.foodItem!.price)}đ',
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.orange,
+          SizedBox(
+            height: 60,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      '${TFormatter.formatCurrency(widget.foodItem!.price)}đ',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.orange,
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    width: 16,
-                  ),
-                  Consumer<RestaurantViewModel>(
-                    builder: (context, restaurantVM, _) {
-                      final soldCount =
-                          restaurantVM.getFoodSoldCount(widget.foodItem!.id);
-                      return Text(
-                        'Đã bán: $soldCount |',
-                        style: const TextStyle(fontSize: 14),
-                      );
-                    },
-                  )
-                ],
-              ),
-              FoodOrderController(
-                food: widget.foodItem!,
-                showQuantitySelector: true,
-                onOrderComplete: _onOrderComplete,
-                showTotalPrice: false,
-                onQuantityChanged: _onQuantityChanged,
-                restaurantId: widget.restaurantId!,
-              ),
-            ],
+                    const SizedBox(
+                      width: 16,
+                    ),
+                    Consumer<RestaurantViewModel>(
+                      builder: (context, restaurantVM, _) {
+                        final soldCount =
+                            restaurantVM.getFoodSoldCount(widget.foodItem!.id);
+                        return Text(
+                          'Đã bán: $soldCount      |',
+                          style: const TextStyle(fontSize: 14),
+                        );
+                      },
+                    )
+                  ],
+                ),
+                FoodOrderController(
+                  food: widget.foodItem!,
+                  showQuantitySelector: true,
+                  onOrderComplete: _onOrderComplete,
+                  showTotalPrice: false,
+                  onQuantityChanged: _onQuantityChanged,
+                  restaurantId: widget.restaurantId!,
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

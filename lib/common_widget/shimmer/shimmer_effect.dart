@@ -150,8 +150,6 @@ class _TShimmerState extends State<TShimmer>
           blendMode: BlendMode.srcATop,
           shaderCallback: (bounds) {
             final Gradient gradient = _getGradient();
-
-            // Tính toán vị trí của gradient dựa trên animation controller
             Rect rect;
             if (widget.direction == ShimmerDirection.ltr ||
                 widget.direction == ShimmerDirection.rtl) {
@@ -207,7 +205,6 @@ class TShimmerBox extends StatelessWidget {
   }
 }
 
-/// Widget hình tròn với hiệu ứng shimmer
 class TShimmerCircle extends StatelessWidget {
   final double size;
   final Color? color;
@@ -231,102 +228,3 @@ class TShimmerCircle extends StatelessWidget {
   }
 }
 
-/// Ví dụ hiển thị shimmer cho card món ăn
-class TShimmerFoodCard extends StatelessWidget {
-  const TShimmerFoodCard({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return TShimmer.color3(
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: const Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Ảnh món ăn
-            TShimmerBox(
-              width: double.infinity,
-              height: 120,
-              borderRadius: BorderRadius.all(Radius.circular(8)),
-            ),
-            SizedBox(height: 12),
-
-            // Tên món
-            TShimmerBox(
-              width: 150,
-              height: 20,
-              borderRadius: BorderRadius.all(Radius.circular(4)),
-            ),
-            SizedBox(height: 8),
-
-            // Mô tả ngắn
-            TShimmerBox(
-              width: double.infinity,
-              height: 16,
-              borderRadius: BorderRadius.all(Radius.circular(4)),
-            ),
-            SizedBox(height: 4),
-            TShimmerBox(
-              width: 100,
-              height: 16,
-              borderRadius: BorderRadius.all(Radius.circular(4)),
-            ),
-            SizedBox(height: 12),
-
-            // Giá và đánh giá
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                TShimmerBox(
-                  width: 80,
-                  height: 24,
-                  borderRadius: BorderRadius.all(Radius.circular(4)),
-                ),
-                Row(
-                  children: [
-                    TShimmerBox(
-                      width: 60,
-                      height: 20,
-                      borderRadius: BorderRadius.all(Radius.circular(4)),
-                    ),
-                    SizedBox(width: 4),
-                    TShimmerCircle(size: 20),
-                  ],
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-/// Ví dụ hiển thị shimmer cho danh sách món ăn
-class TShimmerFoodList extends StatelessWidget {
-  final int itemCount;
-
-  const TShimmerFoodList({
-    Key? key,
-    this.itemCount = 5,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.all(16),
-      itemCount: itemCount,
-      itemBuilder: (context, index) {
-        return Container(
-          margin: const EdgeInsets.only(bottom: 16),
-          child: const TShimmerFoodCard(),
-        );
-      },
-    );
-  }
-}

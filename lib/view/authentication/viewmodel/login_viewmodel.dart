@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:foodapp/data/repositories/user_repository.dart';
@@ -14,8 +13,6 @@ import 'package:foodapp/ultils/exception/format_exception.dart';
 import 'package:foodapp/data/models/user_model.dart';
 import 'package:foodapp/ultils/const/enum.dart';
 
-// GlobalKey cho navigation
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class LoginViewModel extends ChangeNotifier {
   final AuthenticationRepository _authenticationRepository =
@@ -35,7 +32,6 @@ class LoginViewModel extends ChangeNotifier {
   String _error = '';
   bool isSuccess = false;
 
-  // Thêm callback để điều hướng từ View
   Function(String)? _navigationCallback;
 
   final TLocalStorage _localStorage = TLocalStorage.instance();
@@ -49,7 +45,6 @@ class LoginViewModel extends ChangeNotifier {
   String get error => _error;
   bool get autoLogin => _autoLogin;
 
-  // Setter cho callback điều hướng
   set navigationCallback(Function(String) callback) {
     _navigationCallback = callback;
   }
@@ -140,19 +135,11 @@ class LoginViewModel extends ChangeNotifier {
 
   Future<void> autoLoginUser() async {
     try {
-      // Trên web, không nên tự động đăng nhập
-      if (kIsWeb) {
-        return;
-      }
-
       _isLoading = true;
       notifyListeners();
-
-      // Kiểm tra token Google trước
       final googleToken = _localStorage.readData<String>("tokenGoogle");
       if (googleToken != null && googleToken.isNotEmpty) {
         try {
-          // Thử đăng nhập bằng Google token
           final userCredential = await _authenticationRepository
               .signInWithGoogleToken(googleToken);
           if (userCredential != null) {
@@ -165,14 +152,11 @@ class LoginViewModel extends ChangeNotifier {
             return;
           }
         } catch (e) {
-          // Nếu đăng nhập bằng Google token thất bại, xóa token
           await _localStorage.removeData("tokenGoogle");
           _error = e.toString();
           notifyListeners();
         }
       }
-
-      // Nếu không có token Google hoặc đăng nhập thất bại, thử đăng nhập bằng email/password
       final email = _localStorage.readData<String>(KEY_USER_EMAIL);
       final password = _localStorage.readData<String>(KEY_PASSWORD_USER);
       final shouldAutoLogin = _localStorage.readData<bool>("AUTO_LOGIN");
@@ -265,7 +249,6 @@ class LoginViewModel extends ChangeNotifier {
         _isLoading = false;
         notifyListeners();
 
-        // Sử dụng callback thay vì navigatorKey
         if (_navigationCallback != null) {
           _navigationCallback!('/main_tab');
         }
@@ -302,70 +285,70 @@ class LoginViewModel extends ChangeNotifier {
   /// -----------------------------
   /// Đăng nhập bằng Facebook
   /// -----------------------------
-  Future<void> loginWithFacebook() async {
-    try {
-      _isLoading = true;
-      _error = '';
-      notifyListeners();
+  // Future<void> loginWithFacebook() async {
+  //   try {
+  //     _isLoading = true;
+  //     _error = '';
+  //     notifyListeners();
 
-      final userCredential =
-          await _authenticationRepository.signInWithFacebook();
+  //     final userCredential =
+  //         await _authenticationRepository.signInWithFacebook();
 
-      if (userCredential == null) {
-        _error = TPlatformException('sign_in_canceled').message;
-        notifyListeners();
-        return;
-      }
+  //     if (userCredential == null) {
+  //       _error = TPlatformException('sign_in_canceled').message;
+  //       notifyListeners();
+  //       return;
+  //     }
 
-      await _saveUserFromFacebook(userCredential);
+  //     await _saveUserFromFacebook(userCredential);
 
-      _isLoading = false;
-      notifyListeners();
+  //     _isLoading = false;
+  //     notifyListeners();
 
-      // Sử dụng callback thay vì navigatorKey
-      if (_navigationCallback != null) {
-        _navigationCallback!('/main_tab');
-      }
-      await _userViewModel.fetchUser(userCredential.user!.uid);
-    } catch (e) {
-      _isLoading = false;
-      _error = e.toString();
-      if (_error.contains("Instance of ")) {
-        _error =
-            "Đã xảy ra lỗi không xác định khi đăng nhập Facebook. Vui lòng thử lại.";
-      }
-      notifyListeners();
-      throw "$e.message";
-    }
-  }
+  //     // Sử dụng callback thay vì navigatorKey
+  //     if (_navigationCallback != null) {
+  //       _navigationCallback!('/main_tab');
+  //     }
+  //     await _userViewModel.fetchUser(userCredential.user!.uid);
+  //   } catch (e) {
+  //     _isLoading = false;
+  //     _error = e.toString();
+  //     if (_error.contains("Instance of ")) {
+  //       _error =
+  //           "Đã xảy ra lỗi không xác định khi đăng nhập Facebook. Vui lòng thử lại.";
+  //     }
+  //     notifyListeners();
+  //     throw "$e.message";
+  //   }
+  // }
 
   /// -----------------------------
   /// Lưu thông tin người dùng từ Facebook
   /// -----------------------------
-  Future<void> _saveUserFromFacebook(UserCredential credential) async {
-    try {
-      // Tạo UserModel từ thông tin Facebook
-      final userModel = UserModel(
-        id: credential.user!.uid,
-        name: credential.user?.displayName ?? '',
-        gender: '',
-        avatarUrl: credential.user?.photoURL ?? '',
-        profilePicture: credential.user?.photoURL ?? '',
-        email: credential.user?.email ?? '',
-        phoneNumber: credential.user?.phoneNumber ?? '',
-        addresses: [],
-        favorites: [],
-        token: credential.user!.uid,
-        role: Role.user,
-        createdAt: DateTime.now(),
-        dateOfBirth: DateTime.now(),
-      );
+  // Future<void> _saveUserFromFacebook(UserCredential credential) async {
+  //   try {
+  //     // Tạo UserModel từ thông tin Facebook
+  //     final userModel = UserModel(
+  //       id: credential.user!.uid,
+  //       name: credential.user?.displayName ?? '',
+  //       gender: '',
+  //       avatarUrl: credential.user?.photoURL ?? '',
+  //       profilePicture: credential.user?.photoURL ?? '',
+  //       email: credential.user?.email ?? '',
+  //       phoneNumber: credential.user?.phoneNumber ?? '',
+  //       addresses: [],
+  //       favorites: [],
+  //       token: credential.user!.uid,
+  //       role: Role.user,
+  //       createdAt: DateTime.now(),
+  //       dateOfBirth: DateTime.now(),
+  //     );
 
-      await _userViewModel.saveUser(userModel);
-    } catch (e) {
-      throw "$e.message";
-    }
-  }
+  //     await _userViewModel.saveUser(userModel);
+  //   } catch (e) {
+  //     throw "$e.message";
+  //   }
+  // }
 
   /// -----------------------------
   /// Xoá thông tin trong các TextEditingControllers

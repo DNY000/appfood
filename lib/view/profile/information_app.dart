@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodapp/common_widget/appbar/t_appbar.dart';
 import '../../ultils/const/color_extension.dart';
 
 class InformationAppView extends StatelessWidget {
@@ -7,10 +8,11 @@ class InformationAppView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: TAppBar(
         title: const Text('Giới thiệu ứng dụng'),
-        backgroundColor: Colors.white,
+       showBackArrow: true,
       ),
+     
       body: const Padding(
         padding: EdgeInsets.all(20),
         child: SingleChildScrollView(

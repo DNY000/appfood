@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodapp/ultils/const/color_extension.dart';
 import 'package:foodapp/view/restaurant/single_food_detail.dart';
+import 'package:foodapp/view/restaurant/widgets/food_image_widget.dart';
 import 'package:foodapp/viewmodels/food_viewmodel.dart';
 import 'package:foodapp/viewmodels/order_viewmodel.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +11,6 @@ import 'package:foodapp/common_widget/food_order_controller.dart';
 import 'package:foodapp/view/order/order_screen.dart';
 import '../../../ultils/fomatter/formatters.dart';
 import 'package:foodapp/data/models/category_model.dart';
-import 'package:foodapp/data/models/food_model.dart';
 
 class RestaurantFoodsScreen extends StatefulWidget {
   final String restaurantId;
@@ -21,7 +21,6 @@ class RestaurantFoodsScreen extends StatefulWidget {
       : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _RestaurantFoodsScreenState createState() => _RestaurantFoodsScreenState();
 }
 
@@ -147,7 +146,7 @@ class _RestaurantFoodsScreenState extends State<RestaurantFoodsScreen>
             height: 56,
             margin: const EdgeInsets.only(left: 28, right: 28, bottom: 16),
             child: FloatingActionButton.extended(
-              backgroundColor: const Color.fromARGB(255, 223, 151, 57),
+              backgroundColor: TColor.orange3,
               onPressed: () {
                 Navigator.push(
                   context,
@@ -242,11 +241,9 @@ class _RestaurantFoodsScreenState extends State<RestaurantFoodsScreen>
                 itemCount: foods.length,
                 itemBuilder: (context, index) {
                   final food = foods[index];
-                  // Hiển thị số lượng đã bán
                   final soldCount = context
                       .read<RestaurantViewModel>()
                       .getFoodSoldCount(food.id);
-
                   return GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -266,12 +263,11 @@ class _RestaurantFoodsScreenState extends State<RestaurantFoodsScreen>
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
                           children: [
-                            // Ảnh món ăn
                             ClipRRect(
                               borderRadius: BorderRadius.circular(8),
                               child: Stack(
                                 children: [
-                                  buildFoodImage(food),
+                                  FoodImageWidget(imageSource: food.images[0]),
                                   if (soldCount > 0)
                                     Positioned(
                                       top: 0,
@@ -300,8 +296,6 @@ class _RestaurantFoodsScreenState extends State<RestaurantFoodsScreen>
                                 ],
                               ),
                             ),
-
-                            // Thông tin món ăn
                             Expanded(
                               child: Padding(
                                 padding:
@@ -331,13 +325,14 @@ class _RestaurantFoodsScreenState extends State<RestaurantFoodsScreen>
                                     ),
                                     const SizedBox(height: 4),
                                     Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
                                           '${TFormatter.formatCurrency(food.price)}đ',
                                           style: TextStyle(
                                             fontSize: 15,
                                             fontWeight: FontWeight.bold,
-                                            color: TColor.color3,
+                                            color: TColor.orange3,
                                           ),
                                         ),
                                         const SizedBox(width: 8),
@@ -349,19 +344,18 @@ class _RestaurantFoodsScreenState extends State<RestaurantFoodsScreen>
                                               color: Colors.grey,
                                             ),
                                           ),
+                                          FoodOrderController(
+                                  food: food,
+                                  restaurantId: widget.restaurantId,
+                                  showQuantitySelector: true,
+                                ),
                                       ],
                                     ),
                                   ],
                                 ),
                               ),
                             ),
-
-                            // Nút thêm vào giỏ hàng
-                            FoodOrderController(
-                              food: food,
-                              restaurantId: widget.restaurantId,
-                              showQuantitySelector: true,
-                            ),
+                            
                           ],
                         ),
                       ),
@@ -374,30 +368,5 @@ class _RestaurantFoodsScreenState extends State<RestaurantFoodsScreen>
         );
       },
     );
-  }
-
-  Widget buildFoodImage(FoodModel food) {
-    final imageUrl = food.images.isNotEmpty
-        ? food.images[0]
-        : 'assets/img/placeholder_food.png';
-    if (imageUrl.startsWith('http')) {
-      return Image.network(
-        imageUrl,
-        width: 90,
-        height: 90,
-        fit: BoxFit.cover,
-        errorBuilder: (context, error, stackTrace) =>
-            const Icon(Icons.fastfood, size: 60, color: Colors.orange),
-      );
-    } else {
-      return Image.asset(
-        imageUrl,
-        width: 90,
-        height: 90,
-        fit: BoxFit.cover,
-        errorBuilder: (context, error, stackTrace) =>
-            const Icon(Icons.fastfood, size: 60, color: Colors.orange),
-      );
-    }
   }
 }

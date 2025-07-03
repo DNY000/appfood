@@ -59,7 +59,8 @@ class ListAllRestaurant extends StatelessWidget {
                           topLeft: Radius.circular(12),
                           topRight: Radius.circular(12),
                         ),
-                        child: restaurant.mainImage.isNotEmpty
+                        child: 
+                        restaurant.mainImage.isNotEmpty
                             ? Image.asset(
                                 restaurant.mainImage,
                                 width: double.infinity,

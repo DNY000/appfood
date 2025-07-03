@@ -14,7 +14,6 @@ class AuthenticationRepository {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   User? get userAuth => _auth.currentUser;
-  String? _verificationId;
   int? _resendToken;
 
   // Đăng ký tài khoản mới với email và mật khẩu
@@ -114,13 +113,6 @@ class AuthenticationRepository {
   bool isLoggedIn() {
     return _auth.currentUser != null;
   }
-
-  // Trả về UID của người dùng hiện tại nếu đã đăng nhập
-  String? getCurrentUserId() {
-    return _auth.currentUser?.uid;
-  }
-
-  // Lấy thông tin người dùng hiện tại từ Firebase Auth
   User? getCurrentUser() {
     return _auth.currentUser;
   }
@@ -172,24 +164,7 @@ class AuthenticationRepository {
     }
   }
 
-  // Xóa tài khoản người dùng
-  Future<void> deleteAccount() async {
-    try {
-      User? user = _auth.currentUser;
-      if (user != null) {
-        await user.delete();
-      } else {
-        throw TPlatformException('sign_in_required');
-      }
-    } on FirebaseAuthException catch (e) {
-      throw TFirebaseAuthException(e.code);
-    } on FirebaseException catch (e) {
-      throw TFirebaseException(e.code);
-    } catch (e) {
-      throw TPlatformException('unknown');
-    }
-  }
-
+ 
   Future<UserCredential> signInWithGoogle() async {
     try {
       // Trigger the authentication flow
@@ -266,23 +241,22 @@ class AuthenticationRepository {
     }
   }
 
-  Future<UserCredential?> signInWithFacebook() async {
-    try {
-      final LoginResult result = await FacebookAuth.instance.login();
-      final OAuthCredential credential =
-          FacebookAuthProvider.credential(result.accessToken!.token);
-      return await FirebaseAuth.instance.signInWithCredential(credential);
-    } on FirebaseAuthException catch (e) {
-      throw TFirebaseAuthException(e.code);
-    } on FirebaseException catch (e) {
-      throw TFirebaseException(e.code);
-    } catch (e) {
-      throw TPlatformException('unknown');
-    }
-  }
+  // Future<UserCredential?> signInWithFacebook() async {
+  //   try {
+  //     final LoginResult result = await FacebookAuth.instance.login();
+  //     final OAuthCredential credential =
+  //         FacebookAuthProvider.credential(result.accessToken!.token);
+  //     return await FirebaseAuth.instance.signInWithCredential(credential);
+  //   } on FirebaseAuthException catch (e) {
+  //     throw TFirebaseAuthException(e.code);
+  //   } on FirebaseException catch (e) {
+  //     throw TFirebaseException(e.code);
+  //   } catch (e) {
+  //     throw TPlatformException('unknown');
+  //   }
+  // }
 
-  /// Gửi mã OTP tới số điện thoại
-  /// Hỗ trợ cả phương thức cũ và mới
+
   Future<void> sendOTP({
     required String phoneNumber,
     Function(String verificationId, int? resendToken)? onCodeSent,
@@ -318,7 +292,7 @@ class AuthenticationRepository {
         },
         codeSent: (String verificationId, int? resendTokenValue) {
           // Lưu trữ ID xác thực để sử dụng sau này nếu cần
-          _verificationId = verificationId;
+       //   _verificationId = verificationId;
           _resendToken = resendTokenValue;
 
           // Gọi callback mới
@@ -327,7 +301,7 @@ class AuthenticationRepository {
           }
         },
         codeAutoRetrievalTimeout: (String verificationId) {
-          _verificationId = verificationId;
+        //  _verificationId = verificationId;
         },
         forceResendingToken: resendToken ?? _resendToken,
       );
@@ -365,39 +339,8 @@ class AuthenticationRepository {
     }
   }
 
-  Future<bool> setPassword(String password) async {
-    try {
-      if (_auth.currentUser == null) {
-        throw TPlatformException('sign_in_required');
-      }
 
-      // Cập nhật mật khẩu cho tài khoản
-      await _auth.currentUser!.updatePassword(password);
 
-      return true;
-    } catch (e) {
-      throw TPlatformException('unknown');
-    }
-  }
-
-  // Kiểm tra tính hợp lệ của token
-  Future<bool> verifyToken(String token) async {
-    try {
-      // Kiểm tra token dựa vào trạng thái đăng nhập hiện tại
-      // Nếu người dùng đã đăng nhập, token vẫn có hiệu lực
-      final currentUser = FirebaseAuth.instance.currentUser;
-
-      if (currentUser != null) {
-        // Nếu người dùng đã đăng nhập, token hợp lệ
-        return true;
-      }
-
-      // Nếu chưa đăng nhập, token không hợp lệ
-      return false;
-    } catch (e) {
-      throw TPlatformException('unknown');
-    }
-  }
 
   Future<UserCredential?> signInWithGoogleToken(String token) async {
     try {

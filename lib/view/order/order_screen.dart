@@ -8,6 +8,7 @@ import 'package:foodapp/data/models/address_model.dart';
 import 'package:foodapp/ultils/const/color_extension.dart';
 import 'package:foodapp/ultils/const/enum.dart';
 import 'package:foodapp/view/main_tab/main_tab_view.dart';
+import 'package:foodapp/view/restaurant/widgets/food_image_widget.dart';
 import 'package:foodapp/viewmodels/order_viewmodel.dart';
 import 'package:foodapp/viewmodels/restaurant_viewmodel.dart';
 import 'package:foodapp/viewmodels/user_viewmodel.dart';
@@ -43,6 +44,8 @@ class _OrderScreenState extends State<OrderScreen> {
   PaymentMethod _selectedPaymentMethod = PaymentMethod.thanhtoankhinhanhang;
   final ScreenshotController _screenshotController = ScreenshotController();
   double totalPay = 0.0;
+    bool isExpanded = false;
+
   @override
   void initState() {
     super.initState();
@@ -171,7 +174,7 @@ class _OrderScreenState extends State<OrderScreen> {
             Container(
               constraints: BoxConstraints(
                 minHeight: 200,
-                maxHeight: MediaQuery.of(context).size.height * 0.6,
+                maxHeight: MediaQuery.of(context).size.height * 0.4,
               ),
               width: double.infinity,
               margin: EdgeInsets.only(
@@ -230,6 +233,7 @@ class _OrderScreenState extends State<OrderScreen> {
               bottom: 32,
               right: 24,
               child: FloatingActionButton.extended(
+                tooltip: "Xin choa",
                 heroTag: 'add_address_fab',
                 backgroundColor: TColor.color3,
                 foregroundColor: Colors.white,
@@ -257,7 +261,7 @@ class _OrderScreenState extends State<OrderScreen> {
                   Navigator.pop(context);
                 },
                 extendedPadding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                 extendedIconLabelSpacing: 6,
                 elevation: 2,
                 shape: RoundedRectangleBorder(
@@ -533,8 +537,12 @@ class _OrderScreenState extends State<OrderScreen> {
       },
     );
   }
-
+ 
   Widget _buildRestaurantAndFoodSection() {
+    final displayedItems = isExpanded
+        ? widget.cartItems
+        : widget.cartItems.take(3).toList();
+
     return Card(
       color: Colors.white,
       margin: const EdgeInsets.only(left: 12, right: 12, top: 8, bottom: 0),
@@ -558,12 +566,13 @@ class _OrderScreenState extends State<OrderScreen> {
             ),
             const SizedBox(height: 16),
             ListView.separated(
+                padding: EdgeInsets.only(bottom: 8),
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: widget.cartItems.length,
+              itemCount: displayedItems.length,
               separatorBuilder: (_, __) => const Divider(height: 1),
               itemBuilder: (context, index) {
-                final item = widget.cartItems[index];
+                final item = displayedItems[index];
                 return Padding(
                   padding: const EdgeInsets.only(top: 8),
                   child: Row(
@@ -597,13 +606,21 @@ class _OrderScreenState extends State<OrderScreen> {
                 );
               },
             ),
-            if (widget.cartItems.length > 3)
+
+            // Nút "Xem thêm"
+            if (widget.cartItems.length > 3 && !isExpanded)
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
-                  onPressed: () {},
-                  child: const Text('Xem thêm',
-                      style: TextStyle(color: Colors.black)),
+                  onPressed: () {
+                    setState(() {
+                      isExpanded = true;
+                    });
+                  },
+                  child: const Text(
+                    'Xem thêm',
+                    style: TextStyle(color: Colors.black),
+                  ),
                 ),
               ),
           ],
@@ -755,8 +772,11 @@ class _OrderScreenState extends State<OrderScreen> {
           ),
           floatingLabelStyle: const TextStyle(color: Colors.black),
           labelStyle: const TextStyle(color: Colors.black),
+      
         ),
         maxLines: 2,
+        cursorColor: TColor.orange3,
+        
         onChanged: (value) {
           setState(() {
             _noteController.text = value;

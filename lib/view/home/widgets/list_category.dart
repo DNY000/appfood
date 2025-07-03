@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodapp/common_widget/selection_text_view.dart';
 import 'package:foodapp/ultils/const/color_extension.dart';
-import 'package:foodapp/common_widget/grid/grid_view.dart';
-import 'package:foodapp/data/models/category_model.dart';
-import 'package:foodapp/view/home/widgets/category_gird_view.dart';
 import 'package:foodapp/view/home/widgets/list_food_by_category.dart';
 import 'package:foodapp/viewmodels/category_viewmodel.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +13,6 @@ class ListCategory extends StatelessWidget {
     final mediaSize = MediaQuery.of(context).size;
 
     return Container(
-      padding: const EdgeInsets.only(top: 4, bottom: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -33,15 +29,13 @@ class ListCategory extends StatelessWidget {
                   )),
             ),
           ),
-
-          // Categories content
           Consumer<CategoryViewModel>(
             builder: (context, viewModel, child) {
               if (viewModel.isLoading) {
                 return SizedBox(
                   height: mediaSize.width * 0.25,
                   child: Center(
-                    child: CircularProgressIndicator(color: TColor.color3),
+                    child: CircularProgressIndicator(color: TColor.orange3),
                   ),
                 );
               }
@@ -117,7 +111,6 @@ class ListCategory extends StatelessWidget {
                     final category = viewModel.categories[index];
                     return GestureDetector(
                       onTap: () {
-                        // Xử lý khi nhấn vào category nếu cần
                       },
                       child: Container(
                         margin: const EdgeInsets.only(right: 8),
@@ -126,21 +119,21 @@ class ListCategory extends StatelessWidget {
                           children: [
                             ClipRRect(
                               borderRadius:
-                                  BorderRadius.circular(16), // Bo góc ảnh
+                                  BorderRadius.circular(8), 
                               child: Image.network(
                                 category.image,
                                 width: 60,
                                 height: 60,
                                 fit: BoxFit.cover,
                                 filterQuality:
-                                    FilterQuality.high, // Làm mượt ảnh
+                                    FilterQuality.high, 
                                 errorBuilder: (context, error, stackTrace) =>
                                     Container(
                                   width: 60,
                                   height: 60,
                                   color: Colors.grey[200],
-                                  child: const Icon(Icons.category,
-                                      color: Colors.orange),
+                                  child:  Icon(Icons.category,
+                                      color: TColor.orange3),
                                 ),
                               ),
                             ),
