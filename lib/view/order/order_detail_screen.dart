@@ -4,7 +4,6 @@ import 'package:foodapp/data/models/order_model.dart';
 import 'package:foodapp/ultils/const/color_extension.dart';
 import 'package:foodapp/ultils/const/enum.dart';
 import 'package:foodapp/ultils/extension.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:foodapp/viewmodels/order_viewmodel.dart';
 
@@ -139,44 +138,43 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   }
 
   Widget _buildOrderStatusSection() {
-    late Color statusColor;
+    // late Color statusColor;
     late String statusText;
 
     switch (widget.order.status) {
       case OrderState.pending:
-        statusColor = Colors.orange;
+       // statusColor = Colors.orange;
         statusText = 'Chờ xác nhận';
         break;
       case OrderState.confirmed:
-        statusColor = Colors.blue;
+       // statusColor = Colors.blue;
         statusText = 'Đã xác nhận';
         break;
       case OrderState.preparing:
-        statusColor = Colors.purple;
+       // statusColor = Colors.purple;
         statusText = 'Đang chuẩn bị';
         break;
       case OrderState.waitingForShipper:
-        statusColor = Colors.indigo;
+       // statusColor = Colors.indigo;
         statusText = 'Chờ shipper nhận';
         break;
       case OrderState.shipperAssigned:
-        statusColor = Colors.amber;
+       // statusColor = Colors.amber;
         statusText = 'Shipper đã nhận đơn';
         break;
       case OrderState.delivering:
-        statusColor = Colors.amber;
+      //  statusColor = Colors.amber;
         statusText = 'Đang giao hàng';
         break;
       case OrderState.delivered:
-        statusColor = Colors.green;
+       // statusColor = Colors.green;
         statusText = 'Đã giao hàng';
         break;
       case OrderState.cancelled:
-        statusColor = Colors.red;
         statusText = 'Đã hủy';
         break;
       case OrderState.ready:
-        statusColor = Colors.cyan;
+     //   statusColor = Colors.cyan;
         statusText = 'Sẵn sàng giao hàng';
         break;
     }
@@ -234,25 +232,27 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
             children: [
               Icon(Icons.location_on_outlined, color: Colors.black54),
               SizedBox(width: 8),
-              Text.rich(
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                TextSpan(children: [
-                  const TextSpan(
-                    text: "Thông tin giao hàng: ",
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.normal,
+              Expanded(
+                child: Text.rich(
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  TextSpan(children: [
+                    const TextSpan(
+                      text: "Thông tin giao hàng: ",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
+                      ),
                     ),
-                  ),
-                  TextSpan(
-                    text: widget.order.address,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.normal,
+                    TextSpan(
+                      text: widget.order.address,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
+                      ),
                     ),
-                  ),
-                ]),
+                  ]),
+                ),
               ),
             ],
           ),

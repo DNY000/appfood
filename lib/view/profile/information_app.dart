@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:foodapp/common_widget/appbar/t_appbar.dart';
-import '../../ultils/const/color_extension.dart';
 
 class InformationAppView extends StatelessWidget {
   const InformationAppView({Key? key}) : super(key: key);

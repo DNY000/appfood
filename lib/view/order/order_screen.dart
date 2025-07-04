@@ -1,22 +1,20 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:foodapp/data/models/cart_item_model.dart';
 import 'package:foodapp/data/models/user_model.dart';
 import 'package:foodapp/data/models/address_model.dart';
 import 'package:foodapp/ultils/const/color_extension.dart';
 import 'package:foodapp/ultils/const/enum.dart';
 import 'package:foodapp/view/main_tab/main_tab_view.dart';
-import 'package:foodapp/view/restaurant/widgets/food_image_widget.dart';
 import 'package:foodapp/viewmodels/order_viewmodel.dart';
 import 'package:foodapp/viewmodels/restaurant_viewmodel.dart';
 import 'package:foodapp/viewmodels/user_viewmodel.dart';
 import 'package:provider/provider.dart';
-import 'package:foodapp/core/services/payment_service.dart';
-import 'package:foodapp/core/services/notifications_service.dart';
+import 'package:foodapp/services/payment_service.dart';
+import 'package:foodapp/services/notifications_service.dart';
 import 'package:screenshot/screenshot.dart';
-import 'package:foodapp/core/services/webview.dart';
+import 'package:foodapp/services/webview.dart';
 import '../../ultils/fomatter/formatters.dart';
 import 'package:foodapp/view/profile/widget/add_address_view.dart';
 
@@ -112,7 +110,7 @@ class _OrderScreenState extends State<OrderScreen> {
       await orderViewModel.createOrder(
           context: context,
           userId: currentUser.id,
-          restaurantId: restaurant?.token ?? 'tcsE1rI5uwY0u9J61FYu7x2wtFy1',
+          restaurantId: restaurant?.id??'0',
           items: widget.cartItems,
           address: deliveryAddress,
           paymentMethod: _selectedPaymentMethod,
@@ -233,7 +231,6 @@ class _OrderScreenState extends State<OrderScreen> {
               bottom: 32,
               right: 24,
               child: FloatingActionButton.extended(
-                tooltip: "Xin choa",
                 heroTag: 'add_address_fab',
                 backgroundColor: TColor.color3,
                 foregroundColor: Colors.white,
@@ -393,28 +390,28 @@ class _OrderScreenState extends State<OrderScreen> {
     );
   }
 
-  void _captureFullScreen() async {
-    final image = await _screenshotController.capture();
-    if (image != null) {
-      showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-          title: Text('Chụp màn hình thành công!'),
-          content: Image.memory(image),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text('Đóng'),
-            ),
-          ],
-        ),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Chụp màn hình thất bại!')),
-      );
-    }
-  }
+  // void _captureFullScreen() async {
+  //   final image = await _screenshotController.capture();
+  //   if (image != null) {
+  //     showDialog(
+  //       context: context,
+  //       builder: (_) => AlertDialog(
+  //         title: Text('Chụp màn hình thành công!'),
+  //         content: Image.memory(image),
+  //         actions: [
+  //           TextButton(
+  //             onPressed: () => Navigator.pop(context),
+  //             child: Text('Đóng'),
+  //           ),
+  //         ],
+  //       ),
+  //     );
+  //   } else {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text('Chụp màn hình thất bại!')),
+  //     );
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -725,33 +722,7 @@ class _OrderScreenState extends State<OrderScreen> {
     );
   }
 
-  Widget _buildDeliveryTimeSection() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Row(
-        children: [
-          const Icon(Icons.access_time, color: Colors.black54),
-          const SizedBox(width: 8),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text('Giao ngay',
-                  style: TextStyle(fontWeight: FontWeight.w500)),
-              Text('Tiêu chuẩn - 23:55',
-                  style: TextStyle(color: TColor.color3, fontSize: 13)),
-            ],
-          ),
-          const Spacer(),
-          TextButton(
-            onPressed: () {},
-            child: Text('Đổi sang hẹn giờ',
-                style: TextStyle(color: TColor.color3)),
-          ),
-        ],
-      ),
-    );
-  }
-
+ 
   Widget _buildVoucherAndNoteSection() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foodapp/common_widget/selection_text_view.dart';
+import 'package:foodapp/common_widget/button/selection_text_view.dart';
 import 'package:foodapp/ultils/const/color_extension.dart';
 import 'package:foodapp/view/home/widgets/list_food_by_category.dart';
 import 'package:foodapp/viewmodels/category_viewmodel.dart';

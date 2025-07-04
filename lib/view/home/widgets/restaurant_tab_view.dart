@@ -570,24 +570,24 @@ class _RestaurantTabViewState extends State<RestaurantTabView>
     );
   }
 
-  Widget _buildSalesInfo(int quantity) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        const Icon(
-          Icons.shopping_cart,
-          size: 16,
-          color: Colors.orange,
-        ),
-        const SizedBox(width: 4),
-        Text(
-          'Đã bán: $quantity',
-          style: const TextStyle(
-            color: Colors.orange,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ],
-    );
-  }
+  // Widget _buildSalesInfo(int quantity) {
+  //   return Row(
+  //     mainAxisSize: MainAxisSize.min,
+  //     children: [
+  //       const Icon(
+  //         Icons.shopping_cart,
+  //         size: 16,
+  //         color: Colors.orange,
+  //       ),
+  //       const SizedBox(width: 4),
+  //       Text(
+  //         'Đã bán: $quantity',
+  //         style: const TextStyle(
+  //           color: Colors.orange,
+  //           fontWeight: FontWeight.w500,
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foodapp/common_widget/food_order_controller.dart';
+import 'package:foodapp/common_widget/cart_order/food_order_controller.dart';
 import 'package:foodapp/data/models/food_model.dart';
 import 'package:foodapp/data/models/cart_item_model.dart';
 import 'package:foodapp/ultils/const/color_extension.dart';
@@ -126,6 +126,7 @@ class _SingleFoodDetailState extends State<SingleFoodDetail> {
             fit: BoxFit.cover,
           ),
           Container(
+            // ignore: deprecated_member_use
             decoration: BoxDecoration(color: Colors.black.withOpacity(0.4)),
           ),
           _buildBackButton(),
@@ -167,6 +168,7 @@ class _SingleFoodDetailState extends State<SingleFoodDetail> {
             height: 32,
             width: 32,
             decoration: BoxDecoration(
+              // ignore: deprecated_member_use
               color: Colors.black.withOpacity(0.5),
               borderRadius: BorderRadius.circular(40),
             ),

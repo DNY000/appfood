@@ -10,7 +10,6 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter/cupertino.dart';
 import '../../ultils/const/color_extension.dart';
 import 'package:foodapp/view/profile/information_app.dart';
-import '../../core/data_import_service.dart';
 
 class MyProfileView extends StatefulWidget {
   const MyProfileView({super.key});
@@ -353,6 +352,7 @@ class _MyProfileViewState extends State<MyProfileView> {
             children: [
               Container(
                 decoration: BoxDecoration(
+                  // ignore: deprecated_member_use
                   color: Colors.orange.withOpacity(0.1),
                   shape: BoxShape.circle,
                 ),
@@ -496,24 +496,24 @@ class _MyProfileViewState extends State<MyProfileView> {
     );
   }
 
-  void _importCategories(BuildContext context) async {
-    await DataImportService().importCategories();
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Import categories thành công!')),
-    );
-  }
+  // void _importCategories(BuildContext context) async {
+  //   await DataImportService().importCategories();
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     const SnackBar(content: Text('Import categories thành công!')),
+  //   );
+  // }
 
-  void _importRestaurants(BuildContext context) async {
-    await DataImportService().importRestaurants();
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Import restaurants thành công!')),
-    );
-  }
+  // void _importRestaurants(BuildContext context) async {
+  //   await DataImportService().importRestaurants();
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     const SnackBar(content: Text('Import restaurants thành công!')),
+  //   );
+  // }
 
-  void _importFoods(BuildContext context) async {
-    await DataImportService().importFoods();
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Import foods thành công!')),
-    );
-  }
+  // void _importFoods(BuildContext context) async {
+  //   await DataImportService().importFoods();
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     const SnackBar(content: Text('Import foods thành công!')),
+  //   );
+  // }
 }

@@ -219,7 +219,6 @@ class LoginViewModel extends ChangeNotifier {
             name: userCredential.user?.displayName ?? '',
             gender: 'Nam',
             avatarUrl: userCredential.user?.photoURL ?? '',
-            profilePicture: userCredential.user?.photoURL ?? '',
             email: userCredential.user?.email ?? '',
             phoneNumber: userCredential.user?.phoneNumber ?? '',
             addresses: [],
@@ -237,8 +236,6 @@ class LoginViewModel extends ChangeNotifier {
           final updatedUser = existingUser.copyWith(
             name: userCredential.user?.displayName ?? existingUser.name,
             avatarUrl: userCredential.user?.photoURL ?? existingUser.avatarUrl,
-            profilePicture:
-                userCredential.user?.photoURL ?? existingUser.profilePicture,
             email: userCredential.user?.email ?? existingUser.email,
           );
           await _userViewModel.updateUser(updatedUser);

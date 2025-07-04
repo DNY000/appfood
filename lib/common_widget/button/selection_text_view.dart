@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../ultils/const/color_extension.dart';
+import '../../ultils/const/color_extension.dart';
 
 class SelectionTextView extends StatelessWidget {
   final String title;

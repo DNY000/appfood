@@ -216,7 +216,7 @@ class _FoodSearchViewState extends State<FoodSearchView> {
             // Lấy danh sách quán từ restaurantVM.restaurants dựa trên restaurant.token
             final List<RestaurantModel> displayRestaurants = restaurantVM
                 .restaurants
-                .where((r) => foodsByRestaurant.containsKey(r.token))
+                .where((r) => foodsByRestaurant.containsKey(r.id))
                 .toList();
             // Nếu không có quán phù hợp, hiển thị danh sách món ăn phù hợp như cũ
             if (displayRestaurants.isEmpty) {
@@ -239,7 +239,7 @@ class _FoodSearchViewState extends State<FoodSearchView> {
                 itemBuilder: (context, index) {
                   final food = searchResults[index];
                   final restaurant = restaurantVM.restaurants.firstWhere(
-                    (r) => r.token == food.restaurantId,
+                    (r) => r.id == food.restaurantId,
                     orElse: () => RestaurantModel(
                         id: '',
                         name: 'Không rõ quán',
@@ -254,7 +254,7 @@ class _FoodSearchViewState extends State<FoodSearchView> {
                         createdAt: DateTime.now(),
                         categories: [],
                         metadata: {},
-                        token: ""),
+                       ),
                   );
                   return Card(
                     margin:
@@ -315,7 +315,7 @@ class _FoodSearchViewState extends State<FoodSearchView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ...displayRestaurants.map((restaurant) {
-                    final foods = foodsByRestaurant[restaurant.token]!;
+                    final foods = foodsByRestaurant[restaurant.id]!;
                     return GestureDetector(
                       onTap: () => Navigator.push(
                           context,
@@ -532,6 +532,7 @@ class _FoodSearchViewState extends State<FoodSearchView> {
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: [
                             BoxShadow(
+                              // ignore: deprecated_member_use
                               color: Colors.grey.withOpacity(0.08),
                               blurRadius: 6,
                               offset: const Offset(0, 2),

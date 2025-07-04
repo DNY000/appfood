@@ -183,7 +183,7 @@ class NotificationItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      notification.title ?? "",
+                      notification.title,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -192,7 +192,7 @@ class NotificationItem extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      notification.content ?? '',
+                      notification.content,
                       style: const TextStyle(
                         fontSize: 14,
                         color: Colors.grey,
@@ -200,7 +200,7 @@ class NotificationItem extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      _formatTime(notification.createdAt) ?? "",
+                      _formatTime(notification.createdAt),
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.grey[400],

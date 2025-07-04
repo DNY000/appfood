@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodapp/common_widget/appbar/t_appbar.dart';
-import 'package:foodapp/common_widget/show_loading.dart';
 import 'package:foodapp/core/location_service.dart';
-import 'package:foodapp/core/services/notifications_service.dart';
-import 'package:foodapp/main.dart';
+import 'package:foodapp/services/notifications_service.dart';
 import 'package:foodapp/ultils/const/color_extension.dart';
 import 'package:foodapp/view/home/widgets/list_banner.dart';
 import 'package:foodapp/view/home/widgets/list_best_seller_food.dart';
@@ -16,7 +14,7 @@ import 'package:foodapp/viewmodels/restaurant_viewmodel.dart';
 import 'package:foodapp/viewmodels/user_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:foodapp/viewmodels/food_viewmodel.dart';
-import '../../common_widget/selection_text_view.dart';
+import '../../common_widget/button/selection_text_view.dart';
 import '../../viewmodels/category_viewmodel.dart';
 import 'package:foodapp/viewmodels/home_viewmodel.dart';
 import 'package:foodapp/view/search/food_search_view.dart';
@@ -137,6 +135,7 @@ class _HomeViewContentState extends State<_HomeViewContent>
                 child: Column(
                   children: [
                     TAppBar(
+                      centerTitle: false,
                       padding: 20,
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

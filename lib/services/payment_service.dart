@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:foodapp/core/services/webview.dart';
+import 'package:foodapp/services/webview.dart';
 
 class VNPayService {
   static const String vnpUrl =
@@ -118,36 +118,36 @@ class VNPayService {
     }
   }
 
-  static Future<void> _updateWalletBalance(
-    String shipperId,
-    double amount,
-  ) async {
-    try {
-      final walletRef =
-          FirebaseFirestore.instance.collection('wallets').doc(shipperId);
+  // static Future<void> _updateWalletBalance(
+  //   String shipperId,
+  //   double amount,
+  // ) async {
+  //   try {
+  //     final walletRef =
+  //         FirebaseFirestore.instance.collection('wallets').doc(shipperId);
 
-      await FirebaseFirestore.instance.runTransaction((transaction) async {
-        final walletDoc = await transaction.get(walletRef);
+  //     await FirebaseFirestore.instance.runTransaction((transaction) async {
+  //       final walletDoc = await transaction.get(walletRef);
 
-        if (walletDoc.exists) {
-          final currentBalance = (walletDoc.data()?['balance'] ?? 0).toDouble();
-          transaction.update(walletRef, {
-            'balance': currentBalance + amount,
-            'updatedAt': FieldValue.serverTimestamp(),
-          });
-        } else {
-          transaction.set(walletRef, {
-            'balance': amount,
-            'shipperId': shipperId,
-            'createdAt': FieldValue.serverTimestamp(),
-            'updatedAt': FieldValue.serverTimestamp(),
-          });
-        }
-      });
-    } catch (e) {
-      print('Lỗi cập nhật số dư: $e');
-    }
-  }
+  //       if (walletDoc.exists) {
+  //         final currentBalance = (walletDoc.data()?['balance'] ?? 0).toDouble();
+  //         transaction.update(walletRef, {
+  //           'balance': currentBalance + amount,
+  //           'updatedAt': FieldValue.serverTimestamp(),
+  //         });
+  //       } else {
+  //         transaction.set(walletRef, {
+  //           'balance': amount,
+  //           'shipperId': shipperId,
+  //           'createdAt': FieldValue.serverTimestamp(),
+  //           'updatedAt': FieldValue.serverTimestamp(),
+  //         });
+  //       }
+  //     });
+  //   } catch (e) {
+  //     print('Lỗi cập nhật số dư: $e');
+  //   }
+  // }
 
   static Map<String, String> _sortObject(Map<String, String> obj) {
     Map<String, String> sorted = {};

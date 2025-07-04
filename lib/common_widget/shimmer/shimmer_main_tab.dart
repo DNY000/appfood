@@ -767,8 +767,6 @@ class ShimmerProfileView extends StatelessWidget {
     );
   }
 }
-
-/// Shimmer MainTabView (Simplified)
 class ShimmerMainTabViewContent extends StatefulWidget {
   final int initialIndex;
   final Function(bool isLoading)? onLoadingChanged;
@@ -791,27 +789,21 @@ class ShimmerMainTabViewContent extends StatefulWidget {
 class _ShimmerMainTabViewContentState extends State<ShimmerMainTabViewContent>
     with TickerProviderStateMixin {
   late TabController
-      _internalTabController; // Sử dụng tab controller nội bộ cho shimmer
+      _internalTabController; 
 
   @override
   void initState() {
     super.initState();
-    // Tạo tab controller nội bộ chỉ để đồng bộ index với main tab controller
     _internalTabController = TabController(
-      length: 4, // Đảm bảo length khớp với số tab
+      length: 4, 
       vsync: this,
       initialIndex: widget.initialIndex,
     );
-
-    // Đồng bộ index từ main tab controller
     widget.tabController.addListener(() {
       if (widget.tabController.index != _internalTabController.index) {
         _internalTabController.index = widget.tabController.index;
-        // Có thể thêm logic setState nếu cần cập nhật UI ngay lập tức khi index đổi
       }
     });
-
-    // Simulating initial loading
     Future.delayed(widget.loadingDuration, () {
       if (mounted) {
         setState(() {
@@ -833,12 +825,10 @@ class _ShimmerMainTabViewContentState extends State<ShimmerMainTabViewContent>
 
   @override
   Widget build(BuildContext context) {
-    // Chỉ build TabBarView cho shimmer content
     return TabBarView(
-      controller: _internalTabController, // Sử dụng internal controller
-      physics: const NeverScrollableScrollPhysics(), // Disable swiping
+      controller: _internalTabController, 
+      physics: const NeverScrollableScrollPhysics(), 
       children: [
-        // Hiển thị shimmer view tương ứng với tab hiện tại
         if (_internalTabController.index == 0)
           const ShimmerHomeView()
         else

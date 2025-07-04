@@ -40,12 +40,21 @@ class _FoodOrderControllerState extends State<FoodOrderController> {
 
   double get totalPrice => widget.food.price * qty;
 
-  @override
-  void initState() {
-    super.initState();
+@override
+void initState() {
+  super.initState();
+
+  final cartViewModel = Provider.of<CartViewModel>(context, listen: false);
+  final existingItem = cartViewModel.getCartItemByFoodId(widget.food.id);
+
+  if (existingItem != null) {
+    qty = existingItem.quantity;
+    isAddedToCart = true;
+  } else {
     qty = 0;
     isAddedToCart = false;
   }
+}
 
   void _notifyQuantityChanged() {
     if (widget.onQuantityChanged != null) {

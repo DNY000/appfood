@@ -7,7 +7,7 @@ import 'package:foodapp/viewmodels/order_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:foodapp/viewmodels/cart_viewmodel.dart';
 import 'package:foodapp/viewmodels/restaurant_viewmodel.dart';
-import 'package:foodapp/common_widget/food_order_controller.dart';
+import 'package:foodapp/common_widget/cart_order/food_order_controller.dart';
 import 'package:foodapp/view/order/order_screen.dart';
 import '../../../ultils/fomatter/formatters.dart';
 import 'package:foodapp/data/models/category_model.dart';
@@ -40,14 +40,11 @@ class _RestaurantFoodsScreenState extends State<RestaurantFoodsScreen>
     super.initState();
     // Xóa các món ăn của nhà hàng này khỏi giỏ hàng khi vào lại màn hình
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
-        cartViewModel.removeItemsByRestaurant(widget.restaurantId);
-      }
-    });
-    Future.microtask(() {
-      Provider.of<FoodViewModel>(context, listen: false)
+       Provider.of<FoodViewModel>(context, listen: false)
           .fetchFoodsByRestaurant(widget.restaurantId);
+  
     });
+
     _tabController =
         TabController(length: widget.categories.length, vsync: this);
 
@@ -79,7 +76,7 @@ class _RestaurantFoodsScreenState extends State<RestaurantFoodsScreen>
 
   @override
   void dispose() {
-    cartViewModel.removeItemsByRestaurant(widget.restaurantId);
+   cartViewModel.removeItemsByRestaurant(widget.restaurantId);
     _tabController.dispose();
     super.dispose();
   }

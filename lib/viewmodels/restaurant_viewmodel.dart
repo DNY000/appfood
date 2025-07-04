@@ -176,18 +176,18 @@ class RestaurantViewModel extends ChangeNotifier {
   Future<void> updateUserLocation() async {
     try {
       final position = await Geolocator.getCurrentPosition(
+        // ignore: deprecated_member_use
         desiredAccuracy: LocationAccuracy.high,
+        // ignore: deprecated_member_use
         timeLimit: const Duration(seconds: 5),
       );
 
       _userLocation = position;
 
-      // Nếu đã có danh sách nhà hàng, cập nhật khoảng cách
       if (_restaurants.isNotEmpty) {
         _sortRestaurantsByDistance();
       }
 
-      // Nếu đang ở chế độ xem nhà hàng gần đây, cập nhật lại danh sách
       if (_nearbyRestaurants.isNotEmpty) {
         await fetchNearbyRestaurants();
       }

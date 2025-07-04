@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodapp/common_widget/grid/food_grid_item.dart';
-import 'package:foodapp/common_widget/selection_text_view.dart';
+import 'package:foodapp/common_widget/button/selection_text_view.dart';
 import 'package:foodapp/view/home/widgets/list_food_by_category.dart';
 import 'package:foodapp/view/restaurant/single_food_detail.dart';
 import 'package:foodapp/viewmodels/food_viewmodel.dart';

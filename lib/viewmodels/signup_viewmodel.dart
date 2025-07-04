@@ -50,7 +50,6 @@ class SignupViewModel extends ChangeNotifier {
         name: '$firstname $lastname',
         gender: '',
         avatarUrl: '',
-        profilePicture: '',
         email: email,
         phoneNumber: phone ?? '',
         addresses: [],

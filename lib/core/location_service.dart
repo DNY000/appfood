@@ -15,7 +15,6 @@ class LocationService {
 
   static Future<Position?> getCurrentLocation(BuildContext context) async {
     try {
-      // Check if we have a recent cached position
       if (_lastKnownPosition != null && _lastUpdateTime != null) {
         final timeDiff = DateTime.now().difference(_lastUpdateTime!);
         if (timeDiff < _cacheTimeout) {
@@ -25,8 +24,6 @@ class LocationService {
 
       bool serviceEnabled;
       LocationPermission permission;
-
-      // Check if location services are enabled
       serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
         if (context.mounted && !hasAskedPermission && !_isDialogShowing) {
@@ -34,8 +31,6 @@ class LocationService {
         }
         return null;
       }
-
-      // Check location permission
       permission = await Geolocator.checkPermission();
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
@@ -53,8 +48,6 @@ class LocationService {
         }
         return null;
       }
-
-      // Try to get location with retries
       Position? position;
       int retryCount = 0;
 
@@ -101,6 +94,7 @@ class LocationService {
     showDialog(
       context: context,
       barrierDismissible: false,
+      // ignore: deprecated_member_use
       barrierColor: Colors.black.withOpacity(0.4),
       builder: (BuildContext context) {
         return AlertDialog(
@@ -119,6 +113,7 @@ class LocationService {
                     color: Colors.white,
                     shape: BoxShape.circle,
                     border: Border.all(
+                        // ignore: deprecated_member_use
                         color: Colors.grey.withOpacity(0.2), width: 1)),
                 padding: const EdgeInsets.all(16),
                 child: Icon(Icons.location_on, color: TColor.orange3, size: 40),
@@ -242,7 +237,6 @@ class LocationService {
     _lastUpdateTime = null;
   }
 
-  /// Chuyển đổi từ vị trí (Position) thành địa chỉ (String)
   static Future<String?> getAddressFromPosition(Position position) async {
     try {
       List<Placemark> placemarks = await placemarkFromCoordinates(

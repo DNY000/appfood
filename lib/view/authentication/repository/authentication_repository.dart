@@ -368,16 +368,12 @@ class AuthenticationRepository {
         idToken: googleAuth.idToken,
       );
 
-      // Đăng nhập vào Firebase với credential
       final userCredential = await _auth.signInWithCredential(credential);
 
-      // Cập nhật thông tin người dùng trong Firestore
       final existingUser = UserModel.fromMap(userDoc.data()!, userDoc.id);
       final updatedUser = existingUser.copyWith(
         name: userCredential.user?.displayName ?? existingUser.name,
         avatarUrl: userCredential.user?.photoURL ?? existingUser.avatarUrl,
-        profilePicture:
-            userCredential.user?.photoURL ?? existingUser.profilePicture,
         email: userCredential.user?.email ?? existingUser.email,
       );
 

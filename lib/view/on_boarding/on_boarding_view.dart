@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:foodapp/ultils/local_storage/storage_utilly.dart';
 import 'package:go_router/go_router.dart';
-import '../../common_widget/round_button.dart';
+import '../../common_widget/button/round_button.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnBoardingView extends StatefulWidget {
@@ -79,7 +79,7 @@ class _OnBoardingViewState extends State<OnBoardingView>
     final media = MediaQuery.of(context).size;
     const primaryOrange = Color(0xFFFF8C00);
     const lightOrange = Color(0xFFFFAB40);
-    const yellowBackground = Color(0xFFFFF2CC);
+    //const yellowBackground = Color(0xFFFFF2CC);
 
     return Scaffold(
       backgroundColor: Colors.white,

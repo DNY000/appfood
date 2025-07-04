@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foodapp/core/services/notifications_service.dart';
+import 'package:foodapp/services/notifications_service.dart';
 import 'package:foodapp/data/models/notification_model.dart';
 import 'package:foodapp/data/models/order_model.dart';
 import 'package:foodapp/data/models/shipper_model.dart';

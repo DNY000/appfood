@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:foodapp/core/services/connected_internet.dart';
+import 'package:foodapp/services/connected_internet.dart';
 import 'package:foodapp/main.dart';
 import 'package:foodapp/ultils/const/color_extension.dart';
 
@@ -51,6 +51,7 @@ class _NetworkStatusOverlayState extends State<NetworkStatusOverlay> {
     showDialog(
       context: context,
       barrierDismissible: false,
+      // ignore: deprecated_member_use
       barrierColor: Colors.black.withOpacity(0.8),
       builder: (BuildContext context) {
         return WillPopScope(
@@ -69,6 +70,7 @@ class _NetworkStatusOverlayState extends State<NetworkStatusOverlay> {
               children: [
                 Container(
                   decoration: BoxDecoration(
+                    // ignore: deprecated_member_use
                     color: Colors.red.withOpacity(0.1),
                     shape: BoxShape.circle,
                   ),

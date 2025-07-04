@@ -80,10 +80,14 @@ class CartViewModel extends ChangeNotifier {
       if (index >= 0) {
         return _items[index];
       }
+            notifyListeners();
+
       return null;
+      
     } catch (e) {
       _error = e.toString();
-      notifyListeners();
+            notifyListeners();
+
       return null;
     }
   }

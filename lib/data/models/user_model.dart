@@ -9,7 +9,6 @@ class UserModel {
   final String name;
   final String gender;
   final String avatarUrl;
-  final String profilePicture;
 
   // Thông tin liên hệ (contact)
   final String? email;
@@ -43,7 +42,6 @@ class UserModel {
     this.name = '',
     this.gender = 'Nam',
     this.avatarUrl = '',
-    this.profilePicture = '',
     this.email,
     this.phoneNumber = '',
     required this.addresses,
@@ -85,7 +83,6 @@ class UserModel {
       name: map['name'] ?? '',
       gender: map['gender'] ?? 'Nam',
       avatarUrl: map['avatarUrl'] ?? '',
-      profilePicture: map['profilePicture'] ?? '',
 
       // Contact
       email: map['email'],
@@ -117,7 +114,6 @@ class UserModel {
       'name': name,
       'gender': gender,
       'avatarUrl': avatarUrl,
-      'profilePicture': profilePicture,
       'email': email,
       'phoneNumber': phoneNumber,
       'addresses': addressesMap,
@@ -151,7 +147,6 @@ class UserModel {
       name: name ?? this.name,
       gender: gender ?? this.gender,
       avatarUrl: avatarUrl ?? this.avatarUrl,
-      profilePicture: profilePicture ?? this.profilePicture,
       email: email ?? this.email,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       addresses: addresses ?? this.addresses,

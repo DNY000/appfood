@@ -7,7 +7,6 @@ import 'package:foodapp/ultils/fomatter/formatters.dart';
 import 'package:foodapp/view/order/order_screen.dart';
 import 'package:foodapp/view/restaurant/widgets/food_image_widget.dart';
 import 'package:foodapp/viewmodels/user_viewmodel.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:foodapp/viewmodels/order_viewmodel.dart';
 import 'package:foodapp/ultils/const/color_extension.dart';

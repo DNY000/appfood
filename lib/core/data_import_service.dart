@@ -1,12 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
-import 'package:foodapp/core/simple_data.dart';
+import 'package:foodapp/data/simple_data.dart';
 
 class DataImportService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  // final FirebaseService _firebaseService = FirebaseService();
-
-  // Helper method để tạo document trực tiếp từ map data
 
   Future<void> importAllData() async {
     try {

@@ -6,13 +6,13 @@ class RestaurantModel {
   final String name;
   final String description;
   final String address;
-  final String token;
+  //final String token;
   final GeoPoint
-      location; // Sử dụng GeoPoint thay vì latitude/longitude riêng lẻ
+      location; 
   final Map<String, String>
-      operatingHours; // Cấu trúc rõ ràng cho giờ hoạt động
+      operatingHours; 
   final double rating;
-  final Map<String, dynamic> images; // Cấu trúc rõ ràng cho hình ảnh
+  final Map<String, dynamic> images;
   final String status;
   final double minOrderAmount;
   final DateTime createdAt;
@@ -33,7 +33,8 @@ class RestaurantModel {
       required this.createdAt,
       required this.categories,
       required this.metadata,
-      required this.token});
+     // required this.token
+      });
 
   // Các getter tiện ích
   String get openTime => operatingHours['openTime'] ?? '08:00';
@@ -99,7 +100,8 @@ class RestaurantModel {
               'isVerified': false,
               'lastUpdated': Timestamp.now(),
             }),
-        token: map['token'] ?? '');
+       // token: map['token'] ?? ''
+        );
   }
 
   Map<String, dynamic> toMap() {
@@ -119,7 +121,7 @@ class RestaurantModel {
         ...metadata,
         'lastUpdated': Timestamp.now(),
       },
-      'token': token
+  //    'token': token
     };
   }
 
@@ -155,6 +157,7 @@ class RestaurantModel {
         createdAt: createdAt ?? this.createdAt,
         categories: categories ?? List<String>.from(this.categories),
         metadata: metadata ?? Map<String, dynamic>.from(this.metadata),
-        token: token ?? this.token);
+     //   token: token ?? this.token
+      );
   }
 }

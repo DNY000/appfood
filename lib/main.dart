@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:foodapp/core/services/connected_internet.dart';
+import 'package:foodapp/services/connected_internet.dart';
 import 'package:foodapp/network_status_overlay.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -83,22 +83,20 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       title: 'Food App',
       debugShowCheckedModeBanner: false,
       routerConfig: goRouter,
-    theme: ThemeData(
-  useMaterial3: true,
-  primaryColor: Colors.white,
-  fontFamily: "Quicksand",
-  scaffoldBackgroundColor: Colors.white,
-  appBarTheme: const AppBarTheme(
-    backgroundColor: Colors.white,
-    elevation: 0,
-    iconTheme: IconThemeData(color: Colors.black),
-    surfaceTintColor: Colors.transparent,
-  ),
-  progressIndicatorTheme:  ProgressIndicatorThemeData(
-    color: TColor.orange3
-  ),
-),
-
+      theme: ThemeData(
+        useMaterial3: true,
+        primaryColor: Colors.white,
+        fontFamily: "Quicksand",
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          iconTheme: IconThemeData(color: Colors.black),
+          surfaceTintColor: Colors.transparent,
+        ),
+        progressIndicatorTheme:
+            ProgressIndicatorThemeData(color: TColor.orange3),
+      ),
       builder: (context, child) {
         return Stack(
           children: [
@@ -110,4 +108,3 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     );
   }
 }
-

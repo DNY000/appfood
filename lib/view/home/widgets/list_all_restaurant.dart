@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodapp/viewmodels/restaurant_viewmodel.dart';
 import 'package:provider/provider.dart';
-import 'package:foodapp/common_widget/grid/restaurant_grid_item.dart';
 import 'package:foodapp/view/restaurant/restaurant_detail_view.dart';
 
 class ListAllRestaurant extends StatelessWidget {

@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'dart:math';
 
 class SampleData {
   static List<Map<String, dynamic>> getCategories() {

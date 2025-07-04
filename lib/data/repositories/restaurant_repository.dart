@@ -111,9 +111,9 @@ class RestaurantRepository {
       // Filter restaurants within bounding box and calculate distances
       final List<MapEntry<RestaurantModel, double>> restaurantsWithDistances =
           [];
-      int invalidLocationCount = 0;
-      int outsideBoundingBoxCount = 0;
-      int outsideRadiusCount = 0;
+      // int invalidLocationCount = 0;
+      // int outsideBoundingBoxCount = 0;
+      // int outsideRadiusCount = 0;
 
       for (final doc in querySnapshot.docs) {
         try {
@@ -141,13 +141,13 @@ class RestaurantRepository {
                 final restaurant = RestaurantModel.fromMap(data, doc.id);
                 restaurantsWithDistances.add(MapEntry(restaurant, distance));
               } else {
-                outsideRadiusCount++;
+               // outsideRadiusCount++;
               }
             } else {
-              outsideBoundingBoxCount++;
+             // outsideBoundingBoxCount++;
             }
           } else {
-            invalidLocationCount++;
+           // invalidLocationCount++;
           }
         } catch (e) {
           debugPrint('Error processing restaurant: ${doc.id}, error: $e');

@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:foodapp/data/models/restaurant_model.dart';
 import 'package:foodapp/view/restaurant/review_user.dart';
 import 'package:foodapp/view/restaurant/single_food_detail.dart';
 import 'package:foodapp/view/restaurant/widgets/food_image_widget.dart';
 import 'package:foodapp/view/restaurant/widgets/restaurant_category_tab.dart';
+import 'package:foodapp/viewmodels/cart_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:foodapp/viewmodels/restaurant_viewmodel.dart';
 import 'package:foodapp/viewmodels/category_viewmodel.dart';
@@ -36,7 +36,44 @@ class _RestaurantDetailViewState extends State<RestaurantDetailView> {
       }
     });
   }
+  void _saveDraftOrderIfNeeded() {
+  final cartVM = Provider.of<CartViewModel>(context, listen: false);
+  final items = cartVM.getCartItemsByRestaurant(widget.restaurant.id);
 
+  if (items.isNotEmpty) {
+    final total = cartVM.getTotalAmountByRestaurant(widget.restaurant.id);
+
+    // final draftOrder = DraftOrderModel(
+    //   id: DateTime.now().toString(),
+    //   restaurantId: widget.restaurant.id,
+    //   items: List<CartItemModel>.from(items),
+    //   totalAmount: total,
+    //   createdAt: DateTime.now(),
+    // );
+
+    // final storage = TLocalStorage.instance();
+    // final draftOrdersJson = storage.readData<String>('draft_orders') ?? '[]';
+    // final List<dynamic> draftOrdersList = json.decode(draftOrdersJson);
+    // final draftOrders = draftOrdersList
+    //     .map((json) => DraftOrderModel.fromJson(json))
+    //     .toList();
+
+    // draftOrders.add(draftOrder);
+
+    // storage.saveData(
+    //   'draft_orders',
+    //   json.encode(draftOrders.map((order) => order.toJson()).toList()),
+    // );
+
+    cartVM.removeItemsByRestaurant(widget.restaurant.id);
+  }
+}
+
+@override
+void dispose() {
+_saveDraftOrderIfNeeded();
+  super.dispose();
+}
   Future<void> _initializeData() async {
     try {
       WidgetsBinding.instance.addPostFrameCallback((_) {

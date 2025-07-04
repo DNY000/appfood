@@ -67,7 +67,6 @@ class SignUpViewModel extends ChangeNotifier {
             name: txtUserName.text.trim(),
             gender: 'Nam',
             avatarUrl: userCredential.user!.photoURL ?? '',
-            profilePicture: '',
             email: txtEmail.text.trim(),
             phoneNumber: '',
             addresses: [emptyAddress], // Đặt vào trong List

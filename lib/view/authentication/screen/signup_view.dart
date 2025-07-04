@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../viewmodel/signup_viewmodel.dart';
-import '../../../common_widget/round_button.dart';
+import '../../../common_widget/button/round_button.dart';
 import 'package:go_router/go_router.dart';
 
 class SignUpView extends StatefulWidget {

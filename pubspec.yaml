@@ -75,6 +75,7 @@ dependencies:
   connectivity_plus: ^6.1.4
   screenshot: ^3.0.0
   shared_preferences: ^2.2.2
+  infinite_scroll_pagination: ^5.1.0
 
 dev_dependencies:
   flutter_test:

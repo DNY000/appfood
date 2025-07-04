@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foodapp/common_widget/add_cart_button.dart';
-import 'package:foodapp/common_widget/food_order_controller.dart';
+import 'package:foodapp/common_widget/cart_order/add_cart_button.dart';
 import 'package:foodapp/view/restaurant/single_food_detail.dart';
 import 'package:foodapp/view/restaurant/widgets/food_image_widget.dart';
 import '../../data/models/food_model.dart';
